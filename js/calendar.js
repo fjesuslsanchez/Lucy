@@ -1,5 +1,5 @@
 // ===================================
-// INTERACTIVE BOOKING CALENDAR
+// VISUAL BOOKING CALENDAR - Enhanced
 // ===================================
 
 class BookingCalendar {
@@ -8,6 +8,7 @@ class BookingCalendar {
         this.currentDate = new Date();
         this.selectedDate = null;
         this.selectedTime = null;
+        this.viewMode = 'month'; // 'month' or 'week'
         this.init();
     }
 
@@ -16,73 +17,90 @@ class BookingCalendar {
     }
 
     render() {
-        const year = this.currentDate.getFullYear();
-        const month = this.currentDate.getMonth();
-
-        const monthSlots = window.bookingSystem.getMonthSlots(year, month);
-
         this.container.innerHTML = `
             <div class="calendar-container">
-                <div class="calendar-header">
-                    <button class="calendar-nav-btn" id="prevMonth">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <h3 class="calendar-title">${this.getMonthName(month)} ${year}</h3>
-                    <button class="calendar-nav-btn" id="nextMonth">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+                <div class="calendar-controls">
+                    <div class="calendar-header">
+                        <button class="calendar-nav-btn" id="prevPeriod">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <h3 class="calendar-title" id="calendarTitle">${this.getTitle()}</h3>
+                        <button class="calendar-nav-btn" id="nextPeriod">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="view-toggle">
+                        <button class="view-btn ${this.viewMode === 'month' ? 'active' : ''}" data-view="month">
+                            <i class="fas fa-calendar"></i> Mois
+                        </button>
+                        <button class="view-btn ${this.viewMode === 'week' ? 'active' : ''}" data-view="week">
+                            <i class="fas fa-calendar-week"></i> Semaine
+                        </button>
+                    </div>
                 </div>
-                <div class="calendar-grid">
-                    ${this.renderCalendar(year, month, monthSlots)}
+                <div class="calendar-view">
+                    ${this.viewMode === 'month' ? this.renderMonthView() : this.renderWeekView()}
                 </div>
                 <div class="calendar-legend">
                     <div class="legend-item">
-                        <span class="legend-color available"></span>
-                        <span>Disponible</span>
+                        <span class="legend-dot available"></span>
+                        <span>Créneaux disponibles</span>
                     </div>
                     <div class="legend-item">
-                        <span class="legend-color selected"></span>
+                        <span class="legend-dot selected"></span>
                         <span>Sélectionné</span>
                     </div>
                     <div class="legend-item">
-                        <span class="legend-color unavailable"></span>
-                        <span>Indisponible</span>
+                        <span class="legend-dot unavailable"></span>
+                        <span>Complet</span>
                     </div>
                 </div>
-            </div>
-            <div class="time-slots-container" id="timeSlotsContainer" style="display: none;">
-                <h4>Créneaux disponibles pour le <span id="selectedDateDisplay"></span></h4>
-                <div class="time-slots-grid" id="timeSlotsGrid"></div>
             </div>
         `;
 
         this.attachEventListeners();
     }
 
-    renderCalendar(year, month, monthSlots) {
+    getTitle() {
+        if (this.viewMode === 'month') {
+            return `${this.getMonthName(this.currentDate.getMonth())} ${this.currentDate.getFullYear()}`;
+        } else {
+            const weekStart = this.getWeekStart(this.currentDate);
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+            return `Semaine du ${weekStart.getDate()} ${this.getMonthName(weekStart.getMonth())} au ${weekEnd.getDate()} ${this.getMonthName(weekEnd.getMonth())} ${weekEnd.getFullYear()}`;
+        }
+    }
+
+    renderMonthView() {
+        const year = this.currentDate.getFullYear();
+        const month = this.currentDate.getMonth();
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        // Adjust firstDay (0 = Sunday, 1 = Monday, etc.)
         const adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1;
 
-        let html = '<div class="calendar-weekdays">';
+        let html = '<div class="month-view">';
+
+        // Weekdays header
+        html += '<div class="month-weekdays">';
         const weekdays = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
         weekdays.forEach(day => {
-            html += `<div class="calendar-weekday">${day}</div>`;
+            html += `<div class="month-weekday">${day}</div>`;
         });
         html += '</div>';
 
-        html += '<div class="calendar-days">';
+        // Days grid
+        html += '<div class="month-days-grid">';
 
-        // Empty cells before first day
+        // Empty cells
         for (let i = 0; i < adjustedFirstDay; i++) {
-            html += '<div class="calendar-day empty"></div>';
+            html += '<div class="month-day empty"></div>';
         }
 
-        // Days of the month
+        // Days
         for (let day = 1; day <= daysInMonth; day++) {
             const date = new Date(year, month, day);
             const dateString = date.toISOString().split('T')[0];
@@ -91,58 +109,182 @@ class BookingCalendar {
             const isToday = date.getTime() === today.getTime();
             const isPast = date < today;
             const isSunday = dayOfWeek === 0;
-            const hasSlots = monthSlots.some(slot => slot.date === dateString);
             const isSelected = this.selectedDate === dateString;
 
-            let classes = 'calendar-day';
+            const availableSlots = !isPast && !isSunday ?
+                window.bookingSystem.getAvailableSlotsForDate(dateString) : [];
+
+            const slotsCount = availableSlots.length;
+
+            let classes = 'month-day';
             if (isToday) classes += ' today';
             if (isPast || isSunday) classes += ' disabled';
-            if (hasSlots && !isPast && !isSunday) classes += ' available';
             if (isSelected) classes += ' selected';
-
-            let title = '';
-            if (isSunday) title = 'Fermé le dimanche';
-            else if (isPast) title = 'Date passée';
-            else if (hasSlots) {
-                const daySlots = monthSlots.find(slot => slot.date === dateString);
-                title = `${daySlots.slots.length} créneau(x) disponible(s)`;
-            } else {
-                title = 'Aucun créneau disponible';
-            }
+            if (slotsCount > 0 && !isPast && !isSunday) classes += ' has-slots';
 
             html += `
-                <div class="${classes}"
-                     data-date="${dateString}"
-                     data-has-slots="${hasSlots}"
-                     title="${title}">
-                    <span class="day-number">${day}</span>
-                    ${hasSlots && !isPast && !isSunday ? '<span class="day-indicator"></span>' : ''}
+                <div class="${classes}" data-date="${dateString}" data-has-slots="${slotsCount > 0}">
+                    <div class="day-number">${day}</div>
+                    ${slotsCount > 0 ? `
+                        <div class="slots-preview">
+                            ${availableSlots.slice(0, 3).map(slot =>
+                                `<div class="slot-chip" data-time="${slot.time}">${slot.time}</div>`
+                            ).join('')}
+                            ${slotsCount > 3 ? `<div class="slot-chip more">+${slotsCount - 3}</div>` : ''}
+                        </div>
+                    ` : (isPast || isSunday ? '<div class="no-slots">—</div>' : '<div class="no-slots">Complet</div>')}
                 </div>
             `;
         }
 
+        html += '</div></div>';
+
+        return html;
+    }
+
+    renderWeekView() {
+        const weekStart = this.getWeekStart(this.currentDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const hours = ['09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+        const weekDays = [];
+
+        // Get 7 days of the week
+        for (let i = 0; i < 7; i++) {
+            const day = new Date(weekStart);
+            day.setDate(day.getDate() + i);
+            weekDays.push(day);
+        }
+
+        let html = '<div class="week-view">';
+
+        // Header with days
+        html += '<div class="week-header">';
+        html += '<div class="time-column-header">Heure</div>';
+
+        weekDays.forEach(day => {
+            const dateString = day.toISOString().split('T')[0];
+            const dayOfWeek = day.getDay();
+            const isToday = day.getTime() === today.getTime();
+            const isPast = day < today;
+            const isSunday = dayOfWeek === 0;
+
+            const dayName = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'][dayOfWeek];
+            const dayNum = day.getDate();
+
+            let classes = 'week-day-header';
+            if (isToday) classes += ' today';
+            if (isSunday) classes += ' sunday';
+
+            html += `
+                <div class="${classes}">
+                    <div class="day-name">${dayName}</div>
+                    <div class="day-date">${dayNum}</div>
+                </div>
+            `;
+        });
         html += '</div>';
+
+        // Time slots grid
+        html += '<div class="week-grid">';
+
+        hours.forEach(hour => {
+            html += `<div class="time-slot-row">`;
+            html += `<div class="time-label">${hour}</div>`;
+
+            weekDays.forEach(day => {
+                const dateString = day.toISOString().split('T')[0];
+                const dayOfWeek = day.getDay();
+                const isPast = day < today;
+                const isSunday = dayOfWeek === 0;
+
+                let slotAvailable = false;
+                if (!isPast && !isSunday) {
+                    const availableSlots = window.bookingSystem.getAvailableSlotsForDate(dateString);
+                    slotAvailable = availableSlots.some(slot => slot.time === hour);
+                }
+
+                const isSelected = this.selectedDate === dateString && this.selectedTime === hour;
+
+                let classes = 'week-time-slot';
+                if (isPast || isSunday) classes += ' disabled';
+                if (slotAvailable) classes += ' available';
+                if (isSelected) classes += ' selected';
+
+                html += `
+                    <div class="${classes}"
+                         data-date="${dateString}"
+                         data-time="${hour}"
+                         data-available="${slotAvailable}">
+                        ${slotAvailable ? '<i class="fas fa-check"></i>' : ''}
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+        });
+
+        html += '</div></div>';
 
         return html;
     }
 
     attachEventListeners() {
         // Navigation buttons
-        document.getElementById('prevMonth')?.addEventListener('click', () => {
-            this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+        document.getElementById('prevPeriod')?.addEventListener('click', () => {
+            if (this.viewMode === 'month') {
+                this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+            } else {
+                this.currentDate.setDate(this.currentDate.getDate() - 7);
+            }
             this.render();
         });
 
-        document.getElementById('nextMonth')?.addEventListener('click', () => {
-            this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+        document.getElementById('nextPeriod')?.addEventListener('click', () => {
+            if (this.viewMode === 'month') {
+                this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+            } else {
+                this.currentDate.setDate(this.currentDate.getDate() + 7);
+            }
             this.render();
         });
 
-        // Day selection
-        document.querySelectorAll('.calendar-day.available').forEach(day => {
+        // View toggle
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.viewMode = e.currentTarget.dataset.view;
+                this.render();
+            });
+        });
+
+        // Month view - day selection
+        document.querySelectorAll('.month-day.has-slots').forEach(day => {
             day.addEventListener('click', (e) => {
+                if (!e.target.closest('.slot-chip')) {
+                    const date = e.currentTarget.dataset.date;
+                    this.selectDate(date);
+                }
+            });
+        });
+
+        // Month view - slot chip selection
+        document.querySelectorAll('.slot-chip[data-time]').forEach(chip => {
+            chip.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const dayEl = e.target.closest('.month-day');
+                const date = dayEl.dataset.date;
+                const time = e.currentTarget.dataset.time;
+                this.selectDateTime(date, time);
+            });
+        });
+
+        // Week view - slot selection
+        document.querySelectorAll('.week-time-slot.available').forEach(slot => {
+            slot.addEventListener('click', (e) => {
                 const date = e.currentTarget.dataset.date;
-                this.selectDate(date);
+                const time = e.currentTarget.dataset.time;
+                this.selectDateTime(date, time);
             });
         });
     }
@@ -151,90 +293,52 @@ class BookingCalendar {
         this.selectedDate = dateString;
         this.selectedTime = null;
 
-        // Update visual selection
-        document.querySelectorAll('.calendar-day').forEach(day => {
-            day.classList.remove('selected');
-        });
-        document.querySelector(`.calendar-day[data-date="${dateString}"]`)?.classList.add('selected');
-
-        // Load time slots
-        this.loadTimeSlots(dateString);
-
         // Update hidden date input
         const dateInput = document.getElementById('date');
         if (dateInput) {
             dateInput.value = dateString;
-        }
-    }
-
-    loadTimeSlots(dateString) {
-        const availableSlots = window.bookingSystem.getAvailableSlotsForDate(dateString);
-        const container = document.getElementById('timeSlotsContainer');
-        const grid = document.getElementById('timeSlotsGrid');
-        const dateDisplay = document.getElementById('selectedDateDisplay');
-
-        if (availableSlots.length === 0) {
-            container.style.display = 'none';
-            return;
+            dateInput.dispatchEvent(new Event('change'));
         }
 
-        // Format date for display
-        const date = new Date(dateString);
-        const formattedDate = date.toLocaleDateString('fr-FR', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-        dateDisplay.textContent = formattedDate;
-
-        // Render time slots
-        grid.innerHTML = availableSlots.map(slot => `
-            <div class="time-slot-item" data-time="${slot.time}">
-                <i class="fas fa-clock"></i>
-                <span class="time-slot-time">${slot.time}</span>
-                <span class="time-slot-duration">${slot.duration} min</span>
-            </div>
-        `).join('');
-
-        container.style.display = 'block';
-
-        // Attach time slot selection
-        document.querySelectorAll('.time-slot-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                const time = e.currentTarget.dataset.time;
-                this.selectTime(time);
-            });
-        });
-
-        // Scroll to time slots
-        container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Switch to week view to show time slots
+        this.viewMode = 'week';
+        this.currentDate = new Date(dateString);
+        this.render();
     }
 
-    selectTime(time) {
+    selectDateTime(dateString, time) {
+        this.selectedDate = dateString;
         this.selectedTime = time;
 
-        // Update visual selection
-        document.querySelectorAll('.time-slot-item').forEach(item => {
-            item.classList.remove('selected');
-        });
-        document.querySelector(`.time-slot-item[data-time="${time}"]`)?.classList.add('selected');
-
-        // Update hidden time input
+        // Update hidden inputs
+        const dateInput = document.getElementById('date');
         const timeInput = document.getElementById('heure');
+
+        if (dateInput) {
+            dateInput.value = dateString;
+            dateInput.dispatchEvent(new Event('change'));
+        }
+
         if (timeInput) {
             timeInput.value = time;
-
-            // If it's a select, create the option if it doesn't exist
-            if (timeInput.tagName === 'SELECT') {
-                let option = Array.from(timeInput.options).find(opt => opt.value === time);
-                if (!option) {
-                    option = new Option(time, time);
-                    timeInput.add(option);
-                }
-                timeInput.value = time;
-            }
+            timeInput.dispatchEvent(new Event('change'));
         }
+
+        // Re-render to show selection
+        this.render();
+
+        // Scroll to form
+        document.getElementById('reservationForm')?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest'
+        });
+    }
+
+    getWeekStart(date) {
+        const d = new Date(date);
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
+        return new Date(d.setDate(diff));
     }
 
     getMonthName(month) {
@@ -255,6 +359,8 @@ class BookingCalendar {
     reset() {
         this.selectedDate = null;
         this.selectedTime = null;
+        this.currentDate = new Date();
+        this.viewMode = 'month';
         this.render();
     }
 }
