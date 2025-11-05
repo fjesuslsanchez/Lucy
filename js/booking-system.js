@@ -300,3 +300,102 @@ class BookingSystem {
 
 // Export de l'instance globale
 window.bookingSystem = new BookingSystem();
+
+// ===================================
+// LOYALTY SYSTEM - Programme de fidélité
+// ===================================
+
+class LoyaltySystem {
+    constructor() {
+        this.storageKey = 'harmonie-loyalty';
+    }
+
+    // Get customer loyalty data
+    getCustomerData(email) {
+        const allData = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+        if (!allData[email]) {
+            allData[email] = {
+                email: email,
+                points: 0,
+                level: 'bronze',
+                totalBookings: 0,
+                totalSpent: 0,
+                rewards: []
+            };
+        }
+        return allData[email];
+    }
+
+    // Save customer data
+    saveCustomerData(email, data) {
+        const allData = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+        allData[email] = data;
+        localStorage.setItem(this.storageKey, JSON.stringify(allData));
+    }
+
+    // Add points for a booking
+    addPointsForBooking(email, service) {
+        const data = this.getCustomerData(email);
+        const prices = {
+            'massage-suedois': 75,
+            'massage-californien': 75,
+            'massage-sportif': 75,
+            'reflexologie': 45,
+            'pierres-chaudes': 110,
+            'olfactotherapie': 75
+        };
+        
+        const price = prices[service] || 75;
+        const points = Math.floor(price / 10); // 1 point per 10€
+        
+        data.points += points;
+        data.totalBookings += 1;
+        data.totalSpent += price;
+        
+        // Update level
+        this.updateLevel(data);
+        
+        this.saveCustomerData(email, data);
+        return points;
+    }
+
+    // Update level based on points
+    updateLevel(data) {
+        if (data.points >= 200) {
+            data.level = 'platinum';
+        } else if (data.points >= 100) {
+            data.level = 'gold';
+        } else if (data.points >= 50) {
+            data.level = 'silver';
+        } else {
+            data.level = 'bronze';
+        }
+    }
+
+    // Get available rewards
+    getAvailableRewards(email) {
+        const data = this.getCustomerData(email);
+        const rewards = [
+            { id: 1, name: 'Réduction 10%', points: 50, discount: 0.10 },
+            { id: 2, name: 'Réduction 15%', points: 100, discount: 0.15 },
+            { id: 3, name: 'Massage gratuit 30min', points: 150, discount: 45 },
+            { id: 4, name: 'Réduction 25%', points: 200, discount: 0.25 }
+        ];
+        
+        return rewards.filter(r => data.points >= r.points);
+    }
+
+    // Get level benefits
+    getLevelBenefits(level) {
+        const benefits = {
+            'bronze': { discount: 0, priority: false, name: 'Bronze' },
+            'silver': { discount: 0.05, priority: false, name: 'Argent' },
+            'gold': { discount: 0.10, priority: true, name: 'Or' },
+            'platinum': { discount: 0.15, priority: true, name: 'Platine' }
+        };
+        return benefits[level] || benefits.bronze;
+    }
+}
+
+// Export instance
+window.loyaltySystem = new LoyaltySystem();
