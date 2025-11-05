@@ -6,6 +6,7 @@
     <title>Harmonie & Bien-Être - Massages & Olfactothérapie</title>
     <meta name="description" content="Découvrez nos services de massages thérapeutiques et d'olfactothérapie pour votre bien-être et relaxation.">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/calendar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -31,6 +32,7 @@
                 <li><a href="#temoignages" class="nav-link">Témoignages</a></li>
                 <li><a href="#apropos" class="nav-link">À Propos</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><button id="darkModeToggle" class="dark-mode-toggle" title="Mode sombre"><i class="fas fa-moon"></i></button></li>
                 <li><a href="#reservation" class="btn-primary-nav">Réserver</a></li>
             </ul>
         </div>
@@ -411,9 +413,17 @@
                 <p class="section-description">Choisissez votre créneau et réservez en ligne</p>
             </div>
 
+            <!-- Calendrier interactif -->
+            <div class="calendar-section">
+                <h3 class="calendar-section-title"><i class="fas fa-calendar-alt"></i> Sélectionnez une date</h3>
+                <div id="bookingCalendar"></div>
+            </div>
+
             <div class="reservation-container">
                 <div class="reservation-form-wrapper">
                     <form id="reservationForm" class="reservation-form">
+                        <h3 class="form-section-title"><i class="fas fa-user"></i> Vos informations</h3>
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="prenom">Prénom *</label>
@@ -436,38 +446,32 @@
                             </div>
                         </div>
 
+                        <h3 class="form-section-title"><i class="fas fa-spa"></i> Votre réservation</h3>
+
                         <div class="form-group">
                             <label for="service">Service souhaité *</label>
                             <select id="service" name="service" required>
                                 <option value="">Choisissez un service</option>
-                                <option value="massage-suedois">Massage Suédois</option>
-                                <option value="massage-californien">Massage Californien</option>
-                                <option value="massage-sportif">Massage Sportif</option>
-                                <option value="pierres-chaudes">Massage aux Pierres Chaudes</option>
-                                <option value="reflexologie">Réflexologie Plantaire</option>
-                                <option value="olfactotherapie">Olfactothérapie</option>
+                                <option value="massage-suedois">Massage Suédois (1h - 75€)</option>
+                                <option value="massage-californien">Massage Californien (1h - 75€)</option>
+                                <option value="massage-sportif">Massage Sportif (1h - 75€)</option>
+                                <option value="pierres-chaudes">Massage aux Pierres Chaudes (1h30 - 110€)</option>
+                                <option value="reflexologie">Réflexologie Plantaire (30min - 45€)</option>
+                                <option value="olfactotherapie">Olfactothérapie (1h - 75€)</option>
                             </select>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="date">Date souhaitée *</label>
-                                <input type="date" id="date" name="date" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="heure">Heure préférée *</label>
-                                <select id="heure" name="heure" required>
-                                    <option value="">Choisissez une heure</option>
-                                    <option value="09:00">09:00</option>
-                                    <option value="10:00">10:00</option>
-                                    <option value="11:00">11:00</option>
-                                    <option value="12:00">12:00</option>
-                                    <option value="14:00">14:00</option>
-                                    <option value="15:00">15:00</option>
-                                    <option value="16:00">16:00</option>
-                                    <option value="17:00">17:00</option>
-                                    <option value="18:00">18:00</option>
-                                </select>
+                        <!-- Champs cachés pour la date et l'heure (remplis par le calendrier) -->
+                        <input type="hidden" id="date" name="date" required>
+                        <input type="hidden" id="heure" name="heure" required>
+
+                        <div class="selected-slot-display" id="selectedSlotDisplay" style="display: none;">
+                            <div class="selected-slot-info">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <strong>Créneau sélectionné:</strong>
+                                    <p id="selectedSlotText"></p>
+                                </div>
                             </div>
                         </div>
 
@@ -480,7 +484,7 @@
                             <i class="fas fa-calendar-check"></i> Confirmer la réservation
                         </button>
 
-                        <p class="form-note">* Champs obligatoires. Vous recevrez une confirmation par email.</p>
+                        <p class="form-note">* Champs obligatoires. Vous recevrez une confirmation par email et pourrez télécharger votre réservation au format .ics pour l'ajouter à votre calendrier Apple/Google.</p>
                     </form>
                 </div>
 
@@ -503,11 +507,20 @@
                     <div class="info-card">
                         <h3><i class="fas fa-info-circle"></i> Informations</h3>
                         <ul>
-                            <li>Annulation gratuite 24h avant</li>
-                            <li>Parking disponible</li>
-                            <li>Accès PMR</li>
-                            <li>Protocoles sanitaires respectés</li>
+                            <li><i class="fas fa-check"></i> Annulation gratuite 24h avant</li>
+                            <li><i class="fas fa-check"></i> Parking disponible</li>
+                            <li><i class="fas fa-check"></i> Accès PMR</li>
+                            <li><i class="fas fa-check"></i> Protocoles sanitaires respectés</li>
+                            <li><i class="fas fa-download"></i> Export calendrier Apple/Google</li>
                         </ul>
+                    </div>
+
+                    <div class="info-card highlight-card">
+                        <h3><i class="fas fa-user-shield"></i> Espace Client</h3>
+                        <p>Suivez vos réservations et votre historique</p>
+                        <a href="client.html" class="btn btn-outline" style="margin-top: 1rem;">
+                            <i class="fas fa-sign-in-alt"></i> Accéder à mon espace
+                        </a>
                     </div>
                 </div>
             </div>
@@ -660,6 +673,8 @@
     </div>
 
     <!-- Scripts -->
+    <script src="js/booking-system.js"></script>
+    <script src="js/calendar.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>

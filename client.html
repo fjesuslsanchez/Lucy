@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Client - Harmonie & Bien-Être</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/calendar.css">
+    <link rel="stylesheet" href="css/client.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1 class="logo">Harmonie & Bien-Être</h1>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Accueil</a></li>
+                <li><a href="index.html#services" class="nav-link">Services</a></li>
+                <li><a href="index.html#tarifs" class="nav-link">Tarifs</a></li>
+                <li><a href="index.html#reservation" class="nav-link">Réserver</a></li>
+                <li><a href="client.html" class="nav-link active">Espace Client</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Client Space Section -->
+    <section class="client-space-section">
+        <div class="container">
+            <div class="client-space-header">
+                <h1><i class="fas fa-user-circle"></i> Espace Client</h1>
+                <p>Consultez vos réservations et votre historique</p>
+            </div>
+
+            <div class="client-space-login" id="clientLogin">
+                <div class="client-login-card">
+                    <h2><i class="fas fa-lock"></i> Accéder à mon espace</h2>
+                    <p>Entrez votre adresse email pour consulter vos réservations</p>
+                    <form id="clientLoginForm">
+                        <div class="form-group">
+                            <label for="clientEmail">Adresse email *</label>
+                            <input type="email" id="clientEmail" name="email" required placeholder="votre@email.com">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-sign-in-alt"></i> Accéder
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="client-space-content" id="clientContent" style="display: none;">
+                <div class="client-header">
+                    <div class="client-info">
+                        <i class="fas fa-user-circle"></i>
+                        <div>
+                            <h3 id="clientName">Bienvenue</h3>
+                            <p id="clientEmail"></p>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline" id="clientLogout">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    </button>
+                </div>
+
+                <div class="client-stats-grid">
+                    <div class="client-stat-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <div>
+                            <h4 id="statUpcoming">0</h4>
+                            <p>Réservations à venir</p>
+                        </div>
+                    </div>
+                    <div class="client-stat-card">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h4 id="statPast">0</h4>
+                            <p>Réservations passées</p>
+                        </div>
+                    </div>
+                    <div class="client-stat-card">
+                        <i class="fas fa-times-circle"></i>
+                        <div>
+                            <h4 id="statCancelled">0</h4>
+                            <p>Annulations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="client-bookings">
+                    <h2><i class="fas fa-calendar-alt"></i> Mes Réservations</h2>
+
+                    <div class="bookings-filter">
+                        <button class="filter-btn active" data-filter="upcoming">
+                            <i class="fas fa-calendar-day"></i> À venir
+                        </button>
+                        <button class="filter-btn" data-filter="past">
+                            <i class="fas fa-history"></i> Passées
+                        </button>
+                        <button class="filter-btn" data-filter="cancelled">
+                            <i class="fas fa-times"></i> Annulées
+                        </button>
+                    </div>
+
+                    <div id="bookingsContainer" class="bookings-container">
+                        <p class="empty-message">Aucune réservation trouvée</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-logo">Harmonie & Bien-Être</h3>
+                    <p class="footer-description">Votre espace dédié au bien-être, à la relaxation et à l'harmonie du corps et de l'esprit.</p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Liens Rapides</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="index.html#services">Services</a></li>
+                        <li><a href="index.html#tarifs">Tarifs</a></li>
+                        <li><a href="index.html#reservation">Réserver</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-phone"></i> +33 6 12 34 56 78</li>
+                        <li><i class="fas fa-envelope"></i> contact@harmonie-bienetre.fr</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Rue de la Paix, Paris</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Harmonie & Bien-Être. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationText"></span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/booking-system.js"></script>
+    <script src="js/client.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
