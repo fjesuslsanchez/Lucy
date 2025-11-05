@@ -413,15 +413,18 @@
                 <p class="section-description">Choisissez votre créneau et réservez en ligne</p>
             </div>
 
-            <!-- Calendrier interactif -->
-            <div class="calendar-section">
-                <h3 class="calendar-section-title"><i class="fas fa-calendar-alt"></i> Sélectionnez une date</h3>
-                <div id="bookingCalendar"></div>
-            </div>
+            <!-- Layout côte à côte : Calendrier + Formulaire -->
+            <div class="booking-layout">
+                <!-- Calendrier interactif -->
+                <div class="calendar-wrapper" id="calendarWrapper">
+                    <h3 class="calendar-section-title"><i class="fas fa-calendar-alt"></i> Sélectionnez un créneau</h3>
+                    <div id="bookingCalendar"></div>
+                </div>
 
-            <div class="reservation-container">
-                <div class="reservation-form-wrapper">
-                    <form id="reservationForm" class="reservation-form">
+                <!-- Formulaire (caché par défaut) -->
+                <div class="form-wrapper" id="formWrapper">
+                    <div class="reservation-form-wrapper">
+                        <form id="reservationForm" class="reservation-form">
                         <h3 class="form-section-title"><i class="fas fa-user"></i> Vos informations</h3>
 
                         <div class="form-row">
@@ -486,42 +489,44 @@
 
                         <p class="form-note">* Champs obligatoires. Vous recevrez une confirmation par email et pourrez télécharger votre réservation au format .ics pour l'ajouter à votre calendrier Apple/Google.</p>
                     </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informations complémentaires -->
+            <div class="reservation-info">
+                <div class="info-card">
+                    <h3><i class="fas fa-clock"></i> Horaires</h3>
+                    <ul>
+                        <li><strong>Lundi - Vendredi :</strong> 9h - 19h</li>
+                        <li><strong>Samedi :</strong> 10h - 17h</li>
+                        <li><strong>Dimanche :</strong> Fermé</li>
+                    </ul>
                 </div>
 
-                <div class="reservation-info">
-                    <div class="info-card">
-                        <h3><i class="fas fa-clock"></i> Horaires</h3>
-                        <ul>
-                            <li><strong>Lundi - Vendredi :</strong> 9h - 19h</li>
-                            <li><strong>Samedi :</strong> 10h - 17h</li>
-                            <li><strong>Dimanche :</strong> Fermé</li>
-                        </ul>
-                    </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-map-marker-alt"></i> Adresse</h3>
+                    <p>123 Rue de la Paix<br>75001 Paris<br>France</p>
+                    <a href="#" class="btn-link">Voir sur la carte <i class="fas fa-external-link-alt"></i></a>
+                </div>
 
-                    <div class="info-card">
-                        <h3><i class="fas fa-map-marker-alt"></i> Adresse</h3>
-                        <p>123 Rue de la Paix<br>75001 Paris<br>France</p>
-                        <a href="#" class="btn-link">Voir sur la carte <i class="fas fa-external-link-alt"></i></a>
-                    </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> Informations</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Annulation gratuite 24h avant</li>
+                        <li><i class="fas fa-check"></i> Parking disponible</li>
+                        <li><i class="fas fa-check"></i> Accès PMR</li>
+                        <li><i class="fas fa-check"></i> Protocoles sanitaires respectés</li>
+                        <li><i class="fas fa-download"></i> Export calendrier Apple/Google</li>
+                    </ul>
+                </div>
 
-                    <div class="info-card">
-                        <h3><i class="fas fa-info-circle"></i> Informations</h3>
-                        <ul>
-                            <li><i class="fas fa-check"></i> Annulation gratuite 24h avant</li>
-                            <li><i class="fas fa-check"></i> Parking disponible</li>
-                            <li><i class="fas fa-check"></i> Accès PMR</li>
-                            <li><i class="fas fa-check"></i> Protocoles sanitaires respectés</li>
-                            <li><i class="fas fa-download"></i> Export calendrier Apple/Google</li>
-                        </ul>
-                    </div>
-
-                    <div class="info-card highlight-card">
-                        <h3><i class="fas fa-user-shield"></i> Espace Client</h3>
-                        <p>Suivez vos réservations et votre historique</p>
-                        <a href="client.html" class="btn btn-outline" style="margin-top: 1rem;">
-                            <i class="fas fa-sign-in-alt"></i> Accéder à mon espace
-                        </a>
-                    </div>
+                <div class="info-card highlight-card">
+                    <h3><i class="fas fa-user-shield"></i> Espace Client</h3>
+                    <p>Suivez vos réservations et votre historique</p>
+                    <a href="client.html" class="btn btn-outline" style="margin-top: 1rem;">
+                        <i class="fas fa-sign-in-alt"></i> Accéder à mon espace
+                    </a>
                 </div>
             </div>
         </div>

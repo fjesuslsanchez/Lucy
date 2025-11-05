@@ -324,14 +324,41 @@ class BookingCalendar {
             timeInput.dispatchEvent(new Event('change'));
         }
 
+        // Show form with animation
+        const calendarWrapper = document.getElementById('calendarWrapper');
+        const formWrapper = document.getElementById('formWrapper');
+
+        if (calendarWrapper && formWrapper) {
+            calendarWrapper.classList.add('reduced');
+            formWrapper.classList.add('visible');
+        }
+
+        // Update selected slot display
+        const selectedSlotDisplay = document.getElementById('selectedSlotDisplay');
+        const selectedSlotText = document.getElementById('selectedSlotText');
+
+        if (selectedSlotDisplay && selectedSlotText) {
+            const date = new Date(dateString);
+            const formattedDate = date.toLocaleDateString('fr-FR', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            selectedSlotText.textContent = `${formattedDate} à ${time}`;
+            selectedSlotDisplay.style.display = 'block';
+        }
+
         // Re-render to show selection
         this.render();
 
-        // Scroll to form
-        document.getElementById('reservationForm')?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest'
-        });
+        // Scroll to form smoothly
+        setTimeout(() => {
+            document.getElementById('reservationForm')?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest'
+            });
+        }, 300);
     }
 
     getWeekStart(date) {
@@ -361,6 +388,24 @@ class BookingCalendar {
         this.selectedTime = null;
         this.currentDate = new Date();
         this.viewMode = 'month';
+
+        // Reset layout classes
+        const calendarWrapper = document.getElementById('calendarWrapper');
+        const formWrapper = document.getElementById('formWrapper');
+
+        if (calendarWrapper) {
+            calendarWrapper.classList.remove('reduced');
+        }
+        if (formWrapper) {
+            formWrapper.classList.remove('visible');
+        }
+
+        // Hide selected slot display
+        const selectedSlotDisplay = document.getElementById('selectedSlotDisplay');
+        if (selectedSlotDisplay) {
+            selectedSlotDisplay.style.display = 'none';
+        }
+
         this.render();
     }
 }
