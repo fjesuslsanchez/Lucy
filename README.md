@@ -45,14 +45,42 @@ Un site web élégant et moderne pour présenter des services de massages théra
 ### Structure des fichiers
 ```
 Lucy/
-├── index.html           # Page principale
+├── index.html              # Page principale
+├── admin.html              # Interface d'administration
+├── client.html             # Espace client
 ├── css/
-│   └── styles.css      # Tous les styles
+│   ├── styles.css         # Styles principaux
+│   ├── calendar.css       # Styles du calendrier
+│   ├── admin.css          # Styles administration
+│   └── client.css         # Styles espace client
 ├── js/
-│   └── script.js       # Toutes les fonctionnalités JS
-├── images/             # Dossier pour vos images
-└── README.md           # Ce fichier
+│   ├── script.js          # Fonctionnalités principales
+│   ├── booking-system.js  # Système de réservation
+│   ├── calendar.js        # Calendrier interactif
+│   ├── admin.js           # Panel d'administration
+│   └── client.js          # Espace client
+├── images/                # Dossier pour vos images
+└── README.md              # Ce fichier
 ```
+
+### 🔐 Accès Administration
+1. Ouvrez `admin.html` dans votre navigateur
+2. Mot de passe par défaut : **admin123**
+3. **IMPORTANT** : Changez le mot de passe dans `js/admin.js` (ligne 8) avant la mise en production
+4. Depuis l'admin, vous pouvez :
+   - Gérer les créneaux disponibles (activer/désactiver)
+   - Voir toutes les réservations
+   - Consulter les statistiques
+   - Exporter les données
+
+### 👤 Espace Client
+1. Les clients accèdent à `client.html`
+2. Ils entrent leur email utilisé lors de la réservation
+3. Ils peuvent alors :
+   - Consulter leurs réservations
+   - Télécharger les fichiers .ics
+   - Annuler leurs réservations
+   - Voir leurs statistiques
 
 ## 🎨 Personnalisation
 
@@ -234,17 +262,53 @@ Vous pouvez utiliser des générateurs en ligne :
 
 Pour toute question ou personnalisation, n'hésitez pas à demander de l'aide !
 
+## ✅ Nouvelles Fonctionnalités (2024)
+
+### 🎉 Système de Réservation Avancé
+- [x] **Calendrier interactif** avec créneaux disponibles en temps réel
+- [x] **Système de gestion des créneaux** - Les créneaux peuvent être activés/désactivés par jour et par heure
+- [x] **Interface d'administration** complète pour gérer les disponibilités
+- [x] **Export Apple Calendar (.ics)** - Les clients peuvent télécharger leurs réservations au format .ics
+- [x] **Compatible Google Calendar, Outlook** - Support universel des fichiers iCalendar
+
+### 👤 Espace Client
+- [x] **Connexion par email** - Les clients accèdent à leur espace avec leur email
+- [x] **Historique des réservations** - Vue complète de toutes les réservations (passées, à venir, annulées)
+- [x] **Statistiques personnelles** - Nombre de réservations, statuts, etc.
+- [x] **Annulation en ligne** - Les clients peuvent annuler leurs réservations
+- [x] **Téléchargement .ics** - Export des réservations vers calendriers personnels
+
+### 🔐 Administration
+- [x] **Tableau de bord** avec statistiques en temps réel
+- [x] **Gestion des créneaux** - Activer/désactiver les créneaux par jour ou individuellement
+- [x] **Liste des réservations** - Filtres (toutes, à venir, passées, annulées)
+- [x] **Export des données** - Sauvegarde complète au format JSON
+- [x] **Système sécurisé** - Authentification par mot de passe
+
+### 🎨 Interface & UX
+- [x] **Mode sombre** - Basculez entre mode clair et sombre
+- [x] **Design amélioré** - Animations fluides et interface moderne
+- [x] **Modal de confirmation** - Confirmation visuelle après réservation
+- [x] **Notifications toast** - Feedback utilisateur en temps réel
+- [x] **100% responsive** - Optimisé pour tous les appareils
+
+### 📱 Compatibilité Calendrier
+- ✅ Apple Calendar (iPhone, iPad, Mac)
+- ✅ Google Calendar (Android, Web)
+- ✅ Outlook Calendar (Windows, Mac, Web)
+- ✅ Yahoo Calendar
+- ✅ Tout client supportant le format iCalendar (.ics)
+
 ## 🔄 Mises à jour futures
 
 Idées d'améliorations :
 - [ ] Système de blog intégré
-- [ ] Espace client avec historique des rendez-vous
-- [ ] Paiement en ligne
-- [ ] Système de fidélité
+- [ ] Paiement en ligne (Stripe, PayPal)
+- [ ] Système de fidélité avec points
 - [ ] Newsletter avec MailChimp
 - [ ] Multilingue (FR/EN)
-- [ ] Mode sombre
-- [ ] Réservation avec synchronisation Google Calendar
+- [ ] Notifications par email (EmailJS)
+- [ ] Système de rappels automatiques
 
 ## 📄 Licence
 
@@ -253,3 +317,33 @@ Ce projet est fourni tel quel pour un usage personnel et commercial.
 ---
 
 **Fait avec 💚 pour votre succès dans le bien-être !**
+
+### 📝 Blog & Newsletter
+- [x] **Blog intégré** - Articles par catégories (massages, aromathérapie, bien-être, nutrition)
+- [x] **Recherche d'articles** - Recherche par mots-clés
+- [x] **Newsletter** - Inscription avec stockage local
+
+### 🎁 Programme de Fidélité
+- [x] **Système de points** - 1 point par 10€ dépensés
+- [x] **4 niveaux** - Bronze, Argent, Or, Platine
+- [x] **Récompenses** - Réductions et massages gratuits débloquables
+- [x] **Avantages par niveau** - Réductions automatiques selon le niveau
+
+### 🌍 Multilingue
+- [x] **Français/Anglais** - Système de traduction intégré
+- [x] **Toggle langue** - Bouton de changement de langue dans la navigation
+- [x] **Sauvegarde préférence** - La langue est sauvegardée dans le navigateur
+
+### 📧 Notifications Email (EmailJS)
+- [x] **Configuration EmailJS** - Système prêt à l'emploi
+- [x] **Confirmation réservation** - Email automatique après réservation
+- [x] **Rappels 24h avant** - Système de rappels automatiques
+- [x] **Newsletter** - Email de bienvenue pour nouveaux abonnés
+
+## 🔄 Fonctionnalités prêtes à activer
+
+- [ ] **Paiement en ligne** - Stripe/PayPal (configuration à compléter)
+- [ ] **EmailJS** - Remplacer les IDs dans `js/emailjs-config.js`
+- [ ] **Google Maps** - Ajouter votre embed code
+- [ ] **Analytics** - Ajouter Google Analytics ID
+

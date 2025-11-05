@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Harmonie & Bien-Être</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Section -->
+    <div id="loginSection" class="login-section">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <i class="fas fa-lock"></i>
+                    <h2>Administration</h2>
+                    <p>Harmonie & Bien-Être</p>
+                </div>
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="adminPassword">Mot de passe</label>
+                        <input type="password" id="adminPassword" name="password" required autofocus>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+                    <p class="login-note">Par défaut: admin123 (à changer dans le code)</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-panel" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h1>Harmonie & Bien-Être</h1>
+                <p>Administration</p>
+            </div>
+            <nav class="admin-nav">
+                <a href="#" class="admin-nav-link active" data-section="dashboard">
+                    <i class="fas fa-home"></i> Tableau de bord
+                </a>
+                <a href="#" class="admin-nav-link" data-section="slots">
+                    <i class="fas fa-calendar-alt"></i> Gestion des créneaux
+                </a>
+                <a href="#" class="admin-nav-link" data-section="bookings">
+                    <i class="fas fa-list"></i> Réservations
+                </a>
+                <a href="#" class="admin-nav-link" data-section="settings">
+                    <i class="fas fa-cog"></i> Paramètres
+                </a>
+                <a href="index.html" class="admin-nav-link">
+                    <i class="fas fa-arrow-left"></i> Retour au site
+                </a>
+                <a href="#" id="logoutBtn" class="admin-nav-link logout">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h2 id="sectionTitle">Tableau de bord</h2>
+                <div class="admin-user">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Administrateur</span>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboardSection" class="admin-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #8B9D83;">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="statFuture">0</h3>
+                            <p>Réservations à venir</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #D4A574;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="statTotal">0</h3>
+                            <p>Total réservations</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #C9ADA7;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="statSlots">0</h3>
+                            <p>Créneaux actifs</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #e74c3c;">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="statCancelled">0</h3>
+                            <p>Annulations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-calendar-day"></i> Prochaines réservations</h3>
+                        <div id="upcomingBookings" class="bookings-list">
+                            <p class="empty-state">Aucune réservation à venir</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-info-circle"></i> Informations</h3>
+                        <div class="info-list">
+                            <p><i class="fas fa-check text-success"></i> Système de réservation actif</p>
+                            <p><i class="fas fa-check text-success"></i> Export Apple Calendar activé</p>
+                            <p><i class="fas fa-check text-success"></i> Notifications configurées</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slots Management Section -->
+            <section id="slotsSection" class="admin-section">
+                <div class="section-actions">
+                    <button class="btn btn-primary" id="enableAllSlots">
+                        <i class="fas fa-check-double"></i> Activer tous les créneaux
+                    </button>
+                    <button class="btn btn-outline" id="disableAllSlots">
+                        <i class="fas fa-ban"></i> Désactiver tous les créneaux
+                    </button>
+                </div>
+
+                <div class="slots-container">
+                    <div class="day-slots" data-day="monday">
+                        <div class="day-header">
+                            <h3><i class="fas fa-calendar"></i> Lundi</h3>
+                            <div class="day-actions">
+                                <button class="btn-toggle-day" data-day="monday" data-action="enable">
+                                    <i class="fas fa-toggle-on"></i> Activer tout
+                                </button>
+                                <button class="btn-toggle-day" data-day="monday" data-action="disable">
+                                    <i class="fas fa-toggle-off"></i> Désactiver tout
+                                </button>
+                            </div>
+                        </div>
+                        <div class="slots-grid" id="slots-monday"></div>
+                    </div>
+
+                    <div class="day-slots" data-day="tuesday">
+                        <div class="day-header">
+                            <h3><i class="fas fa-calendar"></i> Mardi</h3>
+                            <div class="day-actions">
+                                <button class="btn-toggle-day" data-day="tuesday" data-action="enable">
+                                    <i class="fas fa-toggle-on"></i> Activer tout
+                                </button>
+                                <button class="btn-toggle-day" data-day="tuesday" data-action="disable">
+                                    <i class="fas fa-toggle-off"></i> Désactiver tout
+                                </button>
+                            </div>
+                        </div>
+                        <div class="slots-grid" id="slots-tuesday"></div>
+                    </div>
+
+                    <div class="day-slots" data-day="wednesday">
+                        <div class="day-header">
+                            <h3><i class="fas fa-calendar"></i> Mercredi</h3>
+                            <div class="day-actions">
+                                <button class="btn-toggle-day" data-day="wednesday" data-action="enable">
+                                    <i class="fas fa-toggle-on"></i> Activer tout
+                                </button>
+                                <button class="btn-toggle-day" data-day="wednesday" data-action="disable">
+                                    <i class="fas fa-toggle-off"></i> Désactiver tout
+                                </button>
+                            </div>
+                        </div>
+                        <div class="slots-grid" id="slots-wednesday"></div>
+                    </div>
+
+                    <div class="day-slots" data-day="thursday">
+                        <div class="day-header">
+                            <h3><i class="fas fa-calendar"></i> Jeudi</h3>
+                            <div class="day-actions">
+                                <button class="btn-toggle-day" data-day="thursday" data-action="enable">
+                                    <i class="fas fa-toggle-on"></i> Activer tout
+                                </button>
+                                <button class="btn-toggle-day" data-day="thursday" data-action="disable">
+                                    <i class="fas fa-toggle-off"></i> Désactiver tout
+                                </button>
+                            </div>
+                        </div>
+                        <div class="slots-grid" id="slots-thursday"></div>
+                    </div>
+
+                    <div class="day-slots" data-day="friday">
+                        <div class="day-header">
+                            <h3><i class="fas fa-calendar"></i> Vendredi</h3>
+                            <div class="day-actions">
+                                <button class="btn-toggle-day" data-day="friday" data-action="enable">
+                                    <i class="fas fa-toggle-on"></i> Activer tout
+                                </button>
+                                <button class="btn-toggle-day" data-day="friday" data-action="disable">
+                                    <i class="fas fa-toggle-off"></i> Désactiver tout
+                                </button>
+                            </div>
+                        </div>
+                        <div class="slots-grid" id="slots-friday"></div>
+                    </div>
+
+                    <div class="day-slots" data-day="saturday">
+                        <div class="day-header">
+                            <h3><i class="fas fa-calendar"></i> Samedi</h3>
+                            <div class="day-actions">
+                                <button class="btn-toggle-day" data-day="saturday" data-action="enable">
+                                    <i class="fas fa-toggle-on"></i> Activer tout
+                                </button>
+                                <button class="btn-toggle-day" data-day="saturday" data-action="disable">
+                                    <i class="fas fa-toggle-off"></i> Désactiver tout
+                                </button>
+                            </div>
+                        </div>
+                        <div class="slots-grid" id="slots-saturday"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bookings Section -->
+            <section id="bookingsSection" class="admin-section">
+                <div class="section-actions">
+                    <div class="filter-group">
+                        <button class="btn btn-filter active" data-filter="all">
+                            <i class="fas fa-list"></i> Toutes
+                        </button>
+                        <button class="btn btn-filter" data-filter="future">
+                            <i class="fas fa-calendar-alt"></i> À venir
+                        </button>
+                        <button class="btn btn-filter" data-filter="past">
+                            <i class="fas fa-history"></i> Passées
+                        </button>
+                        <button class="btn btn-filter" data-filter="cancelled">
+                            <i class="fas fa-times"></i> Annulées
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bookings-table-container">
+                    <table class="bookings-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Client</th>
+                                <th>Service</th>
+                                <th>Date</th>
+                                <th>Heure</th>
+                                <th>Téléphone</th>
+                                <th>Email</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsTableBody">
+                            <tr>
+                                <td colspan="9" class="empty-state">Aucune réservation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settingsSection" class="admin-section">
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3><i class="fas fa-key"></i> Sécurité</h3>
+                        <p>Pour changer le mot de passe administrateur, modifiez la constante ADMIN_PASSWORD dans le fichier js/admin.js</p>
+                        <p class="text-warning"><i class="fas fa-exclamation-triangle"></i> Mot de passe actuel: admin123</p>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3><i class="fas fa-database"></i> Données</h3>
+                        <p>Gérez les données du système de réservation</p>
+                        <button class="btn btn-outline" id="exportDataBtn">
+                            <i class="fas fa-download"></i> Exporter les données
+                        </button>
+                        <button class="btn btn-danger" id="resetSystemBtn">
+                            <i class="fas fa-trash-alt"></i> Réinitialiser le système
+                        </button>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3><i class="fas fa-info-circle"></i> À propos</h3>
+                        <p><strong>Version:</strong> 1.0.0</p>
+                        <p><strong>Système de réservation:</strong> Actif</p>
+                        <p><strong>Stockage:</strong> localStorage</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationText"></span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/booking-system.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

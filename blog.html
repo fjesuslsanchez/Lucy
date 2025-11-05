@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Harmonie & Bien-Être</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/blog.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1 class="logo">Harmonie & Bien-Être</h1>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Accueil</a></li>
+                <li><a href="index.html#services" class="nav-link">Services</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="client.html" class="nav-link">Espace Client</a></li>
+                <li><button id="darkModeToggle" class="dark-mode-toggle" title="Mode sombre"><i class="fas fa-moon"></i></button></li>
+                <li><a href="index.html#reservation" class="btn-primary-nav">Réserver</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Blog Header -->
+    <section class="blog-header-section">
+        <div class="container">
+            <h1 class="blog-main-title"><i class="fas fa-newspaper"></i> Blog Bien-Être</h1>
+            <p class="blog-subtitle">Conseils, astuces et actualités pour votre bien-être</p>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog-section">
+        <div class="container">
+            <div class="blog-container">
+                <!-- Sidebar -->
+                <aside class="blog-sidebar">
+                    <div class="sidebar-widget">
+                        <h3><i class="fas fa-search"></i> Rechercher</h3>
+                        <div class="search-box">
+                            <input type="text" id="blogSearch" placeholder="Rechercher un article...">
+                            <button><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3><i class="fas fa-tags"></i> Catégories</h3>
+                        <div class="categories-list">
+                            <a href="#" class="category-link active" data-category="all">Tous les articles <span>(12)</span></a>
+                            <a href="#" class="category-link" data-category="massage">Massages <span>(5)</span></a>
+                            <a href="#" class="category-link" data-category="aromatherapy">Aromathérapie <span>(3)</span></a>
+                            <a href="#" class="category-link" data-category="wellness">Bien-être <span>(2)</span></a>
+                            <a href="#" class="category-link" data-category="nutrition">Nutrition <span>(2)</span></a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3><i class="fas fa-bell"></i> Newsletter</h3>
+                        <p>Recevez nos derniers articles par email</p>
+                        <form id="newsletterForm" class="newsletter-form">
+                            <input type="email" placeholder="Votre email" required>
+                            <button type="submit" class="btn btn-primary btn-full">S'abonner</button>
+                        </form>
+                    </div>
+                </aside>
+
+                <!-- Blog Posts -->
+                <div class="blog-posts" id="blogPosts">
+                    <!-- Articles will be loaded here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-logo">Harmonie & Bien-Être</h3>
+                    <p class="footer-description">Votre espace dédié au bien-être, à la relaxation et à l'harmonie du corps et de l'esprit.</p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Liens Rapides</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="index.html#services">Services</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="client.html">Espace Client</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-phone"></i> +33 6 12 34 56 78</li>
+                        <li><i class="fas fa-envelope"></i> contact@harmonie-bienetre.fr</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Rue de la Paix, Paris</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Harmonie & Bien-Être. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationText"></span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/blog.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

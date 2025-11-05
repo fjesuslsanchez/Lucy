@@ -79,11 +79,42 @@ function validatePhone(phone) {
     return re.test(phone);
 }
 
-// Set minimum date for booking (today)
+// Set minimum date for booking (today) - Not needed with calendar
+// Calendar handles this automatically
+
+// Watch for date and time changes from calendar
 const dateInput = document.getElementById('date');
-if (dateInput) {
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.setAttribute('min', today);
+const timeInput = document.getElementById('heure');
+
+if (dateInput && timeInput) {
+    // Create a MutationObserver to watch for changes in hidden fields
+    const observer = new MutationObserver(() => {
+        updateSelectedSlotDisplay();
+    });
+
+    // Watch for value changes
+    dateInput.addEventListener('change', updateSelectedSlotDisplay);
+    timeInput.addEventListener('change', updateSelectedSlotDisplay);
+}
+
+function updateSelectedSlotDisplay() {
+    const date = document.getElementById('date')?.value;
+    const time = document.getElementById('heure')?.value;
+    const display = document.getElementById('selectedSlotDisplay');
+    const text = document.getElementById('selectedSlotText');
+
+    if (date && time && display && text) {
+        const dateObj = new Date(date);
+        const formattedDate = dateObj.toLocaleDateString('fr-FR', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        text.textContent = `${formattedDate} à ${time}`;
+        display.style.display = 'block';
+    }
 }
 
 // Reservation form
@@ -124,7 +155,13 @@ if (reservationForm) {
         }
 
         if (!date || !heure) {
-            showNotification('Veuillez choisir une date et une heure', 'error');
+            showNotification('Veuillez choisir une date et une heure dans le calendrier', 'error');
+            return;
+        }
+
+        // Check if slot is still available
+        if (!window.bookingSystem.isSlotAvailable(date, heure)) {
+            showNotification('Ce créneau n\'est plus disponible. Veuillez en choisir un autre.', 'error');
             return;
         }
 
@@ -146,12 +183,9 @@ if (reservationForm) {
             telephone,
             service,
             date,
-            heure,
+            time: heure,
             message
         };
-
-        // In a real application, you would send this data to a server
-        console.log('Booking data:', bookingData);
 
         // Simulate API call
         const submitButton = reservationForm.querySelector('button[type="submit"]');
@@ -160,17 +194,33 @@ if (reservationForm) {
         submitButton.disabled = true;
 
         setTimeout(() => {
-            // Success
-            showNotification('Votre réservation a été envoyée avec succès ! Vous recevrez une confirmation par email.');
+            // Save booking in the system
+            const booking = window.bookingSystem.saveBooking(bookingData);
+
+            // Success notification with download option
+            const serviceName = window.bookingSystem.getServiceName(service);
+            const formattedDate = formatDate(date);
+
+            showNotification(`Réservation confirmée ! ${serviceName} le ${formattedDate} à ${heure}`);
+
+            // Create a success modal with download button
+            createBookingSuccessModal(booking);
+
+            // Reset form
             reservationForm.reset();
+            document.getElementById('selectedSlotDisplay').style.display = 'none';
+
+            // Reset calendar
+            if (window.bookingCalendar) {
+                window.bookingCalendar.reset();
+            }
 
             submitButton.innerHTML = originalText;
             submitButton.disabled = false;
 
             // Optional: Send email using EmailJS or similar service
-            // You would need to implement this with your backend
             sendReservationEmail(bookingData);
-        }, 2000);
+        }, 1500);
     });
 }
 
@@ -500,3 +550,131 @@ document.querySelectorAll('.service-card .btn-link').forEach(link => {
         trackEvent('Service', 'Click', serviceName);
     });
 });
+
+// ===================================
+// BOOKING SUCCESS MODAL
+// ===================================
+
+function createBookingSuccessModal(booking) {
+    // Remove existing modal if any
+    const existingModal = document.getElementById('bookingSuccessModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    // Create modal HTML
+    const modal = document.createElement('div');
+    modal.id = 'bookingSuccessModal';
+    modal.className = 'booking-modal';
+    modal.innerHTML = `
+        <div class="booking-modal-overlay"></div>
+        <div class="booking-modal-content">
+            <button class="booking-modal-close" onclick="closeBookingModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="booking-modal-header">
+                <i class="fas fa-check-circle"></i>
+                <h2>Réservation confirmée !</h2>
+            </div>
+            <div class="booking-modal-body">
+                <div class="booking-details">
+                    <div class="booking-detail-item">
+                        <i class="fas fa-user"></i>
+                        <span>${booking.prenom} ${booking.nom}</span>
+                    </div>
+                    <div class="booking-detail-item">
+                        <i class="fas fa-spa"></i>
+                        <span>${window.bookingSystem.getServiceName(booking.service)}</span>
+                    </div>
+                    <div class="booking-detail-item">
+                        <i class="fas fa-calendar"></i>
+                        <span>${formatDate(booking.date)}</span>
+                    </div>
+                    <div class="booking-detail-item">
+                        <i class="fas fa-clock"></i>
+                        <span>${booking.time}</span>
+                    </div>
+                    <div class="booking-detail-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>${booking.email}</span>
+                    </div>
+                    <div class="booking-detail-item">
+                        <i class="fas fa-phone"></i>
+                        <span>${booking.telephone}</span>
+                    </div>
+                </div>
+                <div class="booking-id">
+                    <strong>Numéro de réservation:</strong> <code>${booking.id}</code>
+                </div>
+                <div class="booking-actions">
+                    <button class="btn btn-primary" onclick="downloadBookingICS('${booking.id}')">
+                        <i class="fas fa-download"></i> Télécharger (.ics)
+                    </button>
+                    <button class="btn btn-outline" onclick="goToClientSpace()">
+                        <i class="fas fa-user"></i> Mon espace client
+                    </button>
+                </div>
+                <p class="booking-note">
+                    <i class="fas fa-info-circle"></i>
+                    Vous pouvez ajouter cette réservation à votre calendrier Apple, Google Calendar ou Outlook en téléchargeant le fichier .ics ci-dessus.
+                </p>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Show modal with animation
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+
+    // Close modal on overlay click
+    modal.querySelector('.booking-modal-overlay').addEventListener('click', closeBookingModal);
+}
+
+function closeBookingModal() {
+    const modal = document.getElementById('bookingSuccessModal');
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.remove();
+        }, 300);
+    }
+}
+
+function downloadBookingICS(bookingId) {
+    const bookings = window.bookingSystem.getBookings();
+    const booking = bookings.find(b => b.id === bookingId);
+
+    if (booking) {
+        window.bookingSystem.downloadICS(booking);
+        showNotification('Fichier .ics téléchargé avec succès !');
+    }
+}
+
+function goToClientSpace() {
+    window.location.href = 'client.html';
+}
+
+// ===================================
+// DARK MODE
+// ===================================
+
+// Check for saved theme preference or default to light mode
+const currentTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', currentTheme);
+
+// Dark mode toggle
+const darkModeToggle = document.getElementById('darkModeToggle');
+if (darkModeToggle) {
+    darkModeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        showNotification(newTheme === 'dark' ? 'Mode sombre activé' : 'Mode clair activé');
+    });
+}
