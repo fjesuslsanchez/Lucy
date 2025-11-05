@@ -317,3 +317,33 @@ Ce projet est fourni tel quel pour un usage personnel et commercial.
 ---
 
 **Fait avec 💚 pour votre succès dans le bien-être !**
+
+### 📝 Blog & Newsletter
+- [x] **Blog intégré** - Articles par catégories (massages, aromathérapie, bien-être, nutrition)
+- [x] **Recherche d'articles** - Recherche par mots-clés
+- [x] **Newsletter** - Inscription avec stockage local
+
+### 🎁 Programme de Fidélité
+- [x] **Système de points** - 1 point par 10€ dépensés
+- [x] **4 niveaux** - Bronze, Argent, Or, Platine
+- [x] **Récompenses** - Réductions et massages gratuits débloquables
+- [x] **Avantages par niveau** - Réductions automatiques selon le niveau
+
+### 🌍 Multilingue
+- [x] **Français/Anglais** - Système de traduction intégré
+- [x] **Toggle langue** - Bouton de changement de langue dans la navigation
+- [x] **Sauvegarde préférence** - La langue est sauvegardée dans le navigateur
+
+### 📧 Notifications Email (EmailJS)
+- [x] **Configuration EmailJS** - Système prêt à l'emploi
+- [x] **Confirmation réservation** - Email automatique après réservation
+- [x] **Rappels 24h avant** - Système de rappels automatiques
+- [x] **Newsletter** - Email de bienvenue pour nouveaux abonnés
+
+## 🔄 Fonctionnalités prêtes à activer
+
+- [ ] **Paiement en ligne** - Stripe/PayPal (configuration à compléter)
+- [ ] **EmailJS** - Remplacer les IDs dans `js/emailjs-config.js`
+- [ ] **Google Maps** - Ajouter votre embed code
+- [ ] **Analytics** - Ajouter Google Analytics ID
+
