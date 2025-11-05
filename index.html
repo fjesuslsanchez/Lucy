@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmonie & Bien-Être - Massages & Olfactothérapie</title>
+    <meta name="description" content="Découvrez nos services de massages thérapeutiques et d'olfactothérapie pour votre bien-être et relaxation.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1 class="logo">Harmonie & Bien-Être</h1>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#accueil" class="nav-link">Accueil</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#tarifs" class="nav-link">Tarifs</a></li>
+                <li><a href="#galerie" class="nav-link">Galerie</a></li>
+                <li><a href="#temoignages" class="nav-link">Témoignages</a></li>
+                <li><a href="#apropos" class="nav-link">À Propos</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#reservation" class="btn-primary-nav">Réserver</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="accueil">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h2 class="hero-subtitle">Bienvenue dans votre espace de sérénité</h2>
+            <h1 class="hero-title">Harmonie & Bien-Être</h1>
+            <p class="hero-description">Massages thérapeutiques et olfactothérapie pour retrouver l'équilibre du corps et de l'esprit</p>
+            <div class="hero-buttons">
+                <a href="#reservation" class="btn btn-primary">Réserver un rendez-vous</a>
+                <a href="#services" class="btn btn-secondary">Découvrir nos services</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <p>Scroll</p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section services-section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Nos Prestations</span>
+                <h2 class="section-title">Services de Bien-Être</h2>
+                <p class="section-description">Des soins personnalisés pour votre santé et votre relaxation</p>
+            </div>
+
+            <div class="services-grid">
+                <!-- Massage Suédois -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3 class="service-title">Massage Suédois</h3>
+                    <p class="service-description">Technique classique de massage pour détendre les muscles en profondeur et améliorer la circulation sanguine.</p>
+                    <ul class="service-benefits">
+                        <li><i class="fas fa-check"></i> Réduction du stress</li>
+                        <li><i class="fas fa-check"></i> Détente musculaire</li>
+                        <li><i class="fas fa-check"></i> Amélioration de la circulation</li>
+                    </ul>
+                    <a href="#reservation" class="btn-link">Réserver <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Massage Californien -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-hands"></i>
+                    </div>
+                    <h3 class="service-title">Massage Californien</h3>
+                    <p class="service-description">Massage enveloppant et relaxant qui procure une sensation de bien-être global et d'harmonie.</p>
+                    <ul class="service-benefits">
+                        <li><i class="fas fa-check"></i> Relaxation profonde</li>
+                        <li><i class="fas fa-check"></i> Reconnexion corps-esprit</li>
+                        <li><i class="fas fa-check"></i> Sensation d'apaisement</li>
+                    </ul>
+                    <a href="#reservation" class="btn-link">Réserver <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Massage Sportif -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3 class="service-title">Massage Sportif</h3>
+                    <p class="service-description">Idéal pour les sportifs, ce massage prévient les blessures et favorise la récupération musculaire.</p>
+                    <ul class="service-benefits">
+                        <li><i class="fas fa-check"></i> Récupération rapide</li>
+                        <li><i class="fas fa-check"></i> Prévention des blessures</li>
+                        <li><i class="fas fa-check"></i> Performance optimisée</li>
+                    </ul>
+                    <a href="#reservation" class="btn-link">Réserver <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Massage aux Pierres Chaudes -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3 class="service-title">Pierres Chaudes</h3>
+                    <p class="service-description">Massage utilisant des pierres volcaniques chaudes pour une détente profonde et une relaxation absolue.</p>
+                    <ul class="service-benefits">
+                        <li><i class="fas fa-check"></i> Détente profonde</li>
+                        <li><i class="fas fa-check"></i> Élimination des toxines</li>
+                        <li><i class="fas fa-check"></i> Soulagement des tensions</li>
+                    </ul>
+                    <a href="#reservation" class="btn-link">Réserver <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Réflexologie Plantaire -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shoe-prints"></i>
+                    </div>
+                    <h3 class="service-title">Réflexologie Plantaire</h3>
+                    <p class="service-description">Technique ancestrale stimulant les zones réflexes des pieds pour rééquilibrer l'organisme.</p>
+                    <ul class="service-benefits">
+                        <li><i class="fas fa-check"></i> Équilibre énergétique</li>
+                        <li><i class="fas fa-check"></i> Stimulation des organes</li>
+                        <li><i class="fas fa-check"></i> Bien-être général</li>
+                    </ul>
+                    <a href="#reservation" class="btn-link">Réserver <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Olfactothérapie -->
+                <div class="service-card featured">
+                    <div class="featured-badge">Spécialité</div>
+                    <div class="service-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3 class="service-title">Olfactothérapie</h3>
+                    <p class="service-description">Thérapie par les huiles essentielles pour harmoniser corps et esprit, apaiser les émotions et retrouver l'équilibre.</p>
+                    <ul class="service-benefits">
+                        <li><i class="fas fa-check"></i> Gestion des émotions</li>
+                        <li><i class="fas fa-check"></i> Réduction du stress</li>
+                        <li><i class="fas fa-check"></i> Rééquilibrage énergétique</li>
+                        <li><i class="fas fa-check"></i> Accompagnement personnalisé</li>
+                    </ul>
+                    <a href="#reservation" class="btn-link">Réserver <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tarifs Section -->
+    <section class="section tarifs-section" id="tarifs">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Nos Prix</span>
+                <h2 class="section-title">Tarifs</h2>
+                <p class="section-description">Des forfaits adaptés à vos besoins</p>
+            </div>
+
+            <div class="tarifs-grid">
+                <div class="tarif-card">
+                    <div class="tarif-header">
+                        <h3 class="tarif-title">Séance Découverte</h3>
+                        <div class="tarif-price">
+                            <span class="price">45€</span>
+                            <span class="duration">30 min</span>
+                        </div>
+                    </div>
+                    <ul class="tarif-features">
+                        <li><i class="fas fa-check"></i> Massage au choix</li>
+                        <li><i class="fas fa-check"></i> Conseil personnalisé</li>
+                        <li><i class="fas fa-check"></i> Ambiance relaxante</li>
+                    </ul>
+                    <a href="#reservation" class="btn btn-outline">Réserver</a>
+                </div>
+
+                <div class="tarif-card featured">
+                    <div class="popular-badge">Populaire</div>
+                    <div class="tarif-header">
+                        <h3 class="tarif-title">Séance Bien-Être</h3>
+                        <div class="tarif-price">
+                            <span class="price">75€</span>
+                            <span class="duration">1 heure</span>
+                        </div>
+                    </div>
+                    <ul class="tarif-features">
+                        <li><i class="fas fa-check"></i> Massage complet</li>
+                        <li><i class="fas fa-check"></i> Huiles essentielles</li>
+                        <li><i class="fas fa-check"></i> Temps de relaxation</li>
+                        <li><i class="fas fa-check"></i> Tisane offerte</li>
+                    </ul>
+                    <a href="#reservation" class="btn btn-primary">Réserver</a>
+                </div>
+
+                <div class="tarif-card">
+                    <div class="tarif-header">
+                        <h3 class="tarif-title">Séance Premium</h3>
+                        <div class="tarif-price">
+                            <span class="price">110€</span>
+                            <span class="duration">1h30</span>
+                        </div>
+                    </div>
+                    <ul class="tarif-features">
+                        <li><i class="fas fa-check"></i> Massage intégral</li>
+                        <li><i class="fas fa-check"></i> Olfactothérapie</li>
+                        <li><i class="fas fa-check"></i> Pierres chaudes</li>
+                        <li><i class="fas fa-check"></i> Réflexologie</li>
+                        <li><i class="fas fa-check"></i> Produits bio</li>
+                    </ul>
+                    <a href="#reservation" class="btn btn-outline">Réserver</a>
+                </div>
+            </div>
+
+            <div class="tarifs-note">
+                <p><i class="fas fa-info-circle"></i> Forfaits et cartes cadeaux disponibles. N'hésitez pas à me contacter pour plus d'informations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galerie Section -->
+    <section class="section galerie-section" id="galerie">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Notre Univers</span>
+                <h2 class="section-title">Galerie</h2>
+                <p class="section-description">Découvrez l'ambiance relaxante de notre espace bien-être</p>
+            </div>
+
+            <div class="galerie-grid">
+                <div class="galerie-item">
+                    <div class="galerie-placeholder">
+                        <i class="fas fa-spa"></i>
+                        <p>Espace de massage</p>
+                    </div>
+                </div>
+                <div class="galerie-item">
+                    <div class="galerie-placeholder">
+                        <i class="fas fa-leaf"></i>
+                        <p>Huiles essentielles</p>
+                    </div>
+                </div>
+                <div class="galerie-item">
+                    <div class="galerie-placeholder">
+                        <i class="fas fa-fire-alt"></i>
+                        <p>Pierres chaudes</p>
+                    </div>
+                </div>
+                <div class="galerie-item">
+                    <div class="galerie-placeholder">
+                        <i class="fas fa-candle-holder"></i>
+                        <p>Ambiance zen</p>
+                    </div>
+                </div>
+                <div class="galerie-item">
+                    <div class="galerie-placeholder">
+                        <i class="fas fa-seedling"></i>
+                        <p>Produits naturels</p>
+                    </div>
+                </div>
+                <div class="galerie-item">
+                    <div class="galerie-placeholder">
+                        <i class="fas fa-om"></i>
+                        <p>Relaxation</p>
+                    </div>
+                </div>
+            </div>
+            <p class="galerie-note">💡 Ajoutez vos propres photos dans le dossier 'images/' pour personnaliser la galerie</p>
+        </div>
+    </section>
+
+    <!-- Témoignages Section -->
+    <section class="section temoignages-section" id="temoignages">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Avis Clients</span>
+                <h2 class="section-title">Témoignages</h2>
+                <p class="section-description">Ce que nos clients disent de nous</p>
+            </div>
+
+            <div class="temoignages-grid">
+                <div class="temoignage-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="temoignage-text">"Une expérience incroyable ! Le massage californien était exactement ce dont j'avais besoin. L'ambiance est apaisante et les soins sont d'une qualité exceptionnelle."</p>
+                    <div class="temoignage-author">
+                        <div class="author-avatar">S</div>
+                        <div class="author-info">
+                            <h4 class="author-name">Sophie M.</h4>
+                            <p class="author-date">Il y a 2 semaines</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="temoignage-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="temoignage-text">"L'olfactothérapie m'a vraiment aidée à gérer mon stress. Une approche douce et professionnelle. Je recommande vivement !"</p>
+                    <div class="temoignage-author">
+                        <div class="author-avatar">M</div>
+                        <div class="author-info">
+                            <h4 class="author-name">Marie L.</h4>
+                            <p class="author-date">Il y a 1 mois</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="temoignage-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="temoignage-text">"En tant que sportif, le massage sportif m'aide énormément dans ma récupération. Très professionnel et efficace !"</p>
+                    <div class="temoignage-author">
+                        <div class="author-avatar">J</div>
+                        <div class="author-info">
+                            <h4 class="author-name">Julien D.</h4>
+                            <p class="author-date">Il y a 3 semaines</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- À Propos Section -->
+    <section class="section apropos-section" id="apropos">
+        <div class="container">
+            <div class="apropos-content">
+                <div class="apropos-image">
+                    <div class="apropos-placeholder">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Votre photo ici</p>
+                    </div>
+                </div>
+                <div class="apropos-text">
+                    <span class="section-subtitle">Qui suis-je ?</span>
+                    <h2 class="section-title">À Propos</h2>
+                    <p class="apropos-description">
+                        Passionnée par le bien-être et la santé holistique, je vous accompagne depuis plusieurs années dans votre quête d'équilibre et de sérénité.
+                    </p>
+                    <p class="apropos-description">
+                        Diplômée en massage thérapeutique et formée à l'olfactothérapie, j'ai développé une approche personnalisée qui combine différentes techniques pour répondre aux besoins uniques de chaque personne.
+                    </p>
+
+                    <div class="apropos-highlights">
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <div class="highlight-text">
+                                <h4>Certifications</h4>
+                                <p>Diplômée en massages thérapeutiques et olfactothérapie</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="highlight-text">
+                                <h4>Philosophie</h4>
+                                <p>Une approche holistique centrée sur l'individu</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="highlight-text">
+                                <h4>Expérience</h4>
+                                <p>Plus de 500 clients accompagnés vers le bien-être</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Réservation Section -->
+    <section class="section reservation-section" id="reservation">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Prendre Rendez-vous</span>
+                <h2 class="section-title">Réservation</h2>
+                <p class="section-description">Choisissez votre créneau et réservez en ligne</p>
+            </div>
+
+            <div class="reservation-container">
+                <div class="reservation-form-wrapper">
+                    <form id="reservationForm" class="reservation-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prenom">Prénom *</label>
+                                <input type="text" id="prenom" name="prenom" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nom">Nom *</label>
+                                <input type="text" id="nom" name="nom" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="telephone">Téléphone *</label>
+                                <input type="tel" id="telephone" name="telephone" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="service">Service souhaité *</label>
+                            <select id="service" name="service" required>
+                                <option value="">Choisissez un service</option>
+                                <option value="massage-suedois">Massage Suédois</option>
+                                <option value="massage-californien">Massage Californien</option>
+                                <option value="massage-sportif">Massage Sportif</option>
+                                <option value="pierres-chaudes">Massage aux Pierres Chaudes</option>
+                                <option value="reflexologie">Réflexologie Plantaire</option>
+                                <option value="olfactotherapie">Olfactothérapie</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="date">Date souhaitée *</label>
+                                <input type="date" id="date" name="date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="heure">Heure préférée *</label>
+                                <select id="heure" name="heure" required>
+                                    <option value="">Choisissez une heure</option>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message (optionnel)</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Précisez vos besoins ou préférences..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-calendar-check"></i> Confirmer la réservation
+                        </button>
+
+                        <p class="form-note">* Champs obligatoires. Vous recevrez une confirmation par email.</p>
+                    </form>
+                </div>
+
+                <div class="reservation-info">
+                    <div class="info-card">
+                        <h3><i class="fas fa-clock"></i> Horaires</h3>
+                        <ul>
+                            <li><strong>Lundi - Vendredi :</strong> 9h - 19h</li>
+                            <li><strong>Samedi :</strong> 10h - 17h</li>
+                            <li><strong>Dimanche :</strong> Fermé</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3><i class="fas fa-map-marker-alt"></i> Adresse</h3>
+                        <p>123 Rue de la Paix<br>75001 Paris<br>France</p>
+                        <a href="#" class="btn-link">Voir sur la carte <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+
+                    <div class="info-card">
+                        <h3><i class="fas fa-info-circle"></i> Informations</h3>
+                        <ul>
+                            <li>Annulation gratuite 24h avant</li>
+                            <li>Parking disponible</li>
+                            <li>Accès PMR</li>
+                            <li>Protocoles sanitaires respectés</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact-section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Restons en contact</span>
+                <h2 class="section-title">Contactez-moi</h2>
+                <p class="section-description">Une question ? N'hésitez pas à me contacter</p>
+            </div>
+
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Téléphone</h4>
+                            <p>+33 6 12 34 56 78</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>contact@harmonie-bienetre.fr</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Adresse</h4>
+                            <p>123 Rue de la Paix<br>75001 Paris, France</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-social">
+                        <h4>Suivez-moi</h4>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <label for="contact-nom">Nom complet *</label>
+                        <input type="text" id="contact-nom" name="nom" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-email">Email *</label>
+                        <input type="email" id="contact-email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-sujet">Sujet *</label>
+                        <input type="text" id="contact-sujet" name="sujet" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-message">Message *</label>
+                        <textarea id="contact-message" name="message" rows="6" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-paper-plane"></i> Envoyer le message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-logo">Harmonie & Bien-Être</h3>
+                    <p class="footer-description">Votre espace dédié au bien-être, à la relaxation et à l'harmonie du corps et de l'esprit.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Liens Rapides</h4>
+                    <ul class="footer-links">
+                        <li><a href="#accueil">Accueil</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#tarifs">Tarifs</a></li>
+                        <li><a href="#temoignages">Témoignages</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services">Massages</a></li>
+                        <li><a href="#services">Olfactothérapie</a></li>
+                        <li><a href="#services">Réflexologie</a></li>
+                        <li><a href="#reservation">Réserver</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-phone"></i> +33 6 12 34 56 78</li>
+                        <li><i class="fas fa-envelope"></i> contact@harmonie-bienetre.fr</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Rue de la Paix, Paris</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Harmonie & Bien-Être. Tous droits réservés.</p>
+                <div class="footer-legal">
+                    <a href="#">Mentions légales</a>
+                    <span>•</span>
+                    <a href="#">Politique de confidentialité</a>
+                    <span>•</span>
+                    <a href="#">CGV</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationText"></span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+</body>
+</html>
