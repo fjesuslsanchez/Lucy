@@ -176,6 +176,7 @@ if (reservationForm) {
         }
 
         // Prepare booking data
+        const serviceDuration = window.bookingSystem.getServiceDuration(service);
         const bookingData = {
             prenom,
             nom,
@@ -184,6 +185,7 @@ if (reservationForm) {
             service,
             date,
             time: heure,
+            duration: serviceDuration,
             message
         };
 
