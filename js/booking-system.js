@@ -70,6 +70,17 @@ class BookingSystem {
         return slot;
     }
 
+    // Changer la durée d'un créneau (admin)
+    setSlotDuration(slotId, duration) {
+        const slots = this.getSlots();
+        const slot = slots.find(s => s.id === slotId);
+        if (slot) {
+            slot.duration = duration; // 30, 60, 90, 120 minutes
+            this.saveSlots(slots);
+        }
+        return slot;
+    }
+
     // Activer/Désactiver tous les créneaux d'un jour
     toggleDaySlots(day, enabled) {
         const slots = this.getSlots();
@@ -102,16 +113,49 @@ class BookingSystem {
         const bookings = this.getBookings();
         const bookedSlotsForDate = bookings
             .filter(b => b.date === date && b.status === 'confirmed')
-            .map(b => b.time);
+            .map(b => ({ time: b.time, duration: b.duration || 60 }));
 
-        // Filtrer les créneaux disponibles
-        return enabledSlots
-            .filter(slot => !bookedSlotsForDate.includes(slot.time))
-            .map(slot => ({
-                time: slot.time,
-                duration: slot.duration,
-                available: true
-            }));
+        // Générer des sous-créneaux de 30 minutes
+        const availableSubSlots = [];
+
+        enabledSlots.forEach(slot => {
+            // Générer des sous-créneaux de 30 minutes pour ce créneau principal
+            const numSubSlots = slot.duration / 30; // Ex: 60min = 2 sous-créneaux, 90min = 3
+
+            for (let i = 0; i < numSubSlots; i++) {
+                const [hours, minutes] = slot.time.split(':').map(Number);
+                const subSlotMinutes = minutes + (i * 30);
+                const subSlotHours = hours + Math.floor(subSlotMinutes / 60);
+                const finalMinutes = subSlotMinutes % 60;
+
+                const subSlotTime = `${String(subSlotHours).padStart(2, '0')}:${String(finalMinutes).padStart(2, '0')}`;
+
+                // Vérifier si ce sous-créneau est disponible
+                const isBooked = bookedSlotsForDate.some(booking => {
+                    // Convertir les heures en minutes pour comparer
+                    const [bookingHours, bookingMinutes] = booking.time.split(':').map(Number);
+                    const bookingStart = bookingHours * 60 + bookingMinutes;
+                    const bookingEnd = bookingStart + (booking.duration || 60);
+
+                    const subSlotStart = subSlotHours * 60 + finalMinutes;
+
+                    // Vérifier s'il y a chevauchement
+                    return subSlotStart >= bookingStart && subSlotStart < bookingEnd;
+                });
+
+                if (!isBooked) {
+                    availableSubSlots.push({
+                        time: subSlotTime,
+                        duration: 30,
+                        parentSlot: slot.time,
+                        parentDuration: slot.duration,
+                        available: true
+                    });
+                }
+            }
+        });
+
+        return availableSubSlots;
     }
 
     // Sauvegarder une réservation
@@ -215,7 +259,8 @@ class BookingSystem {
     // Générer un fichier .ics pour une réservation (Apple Calendar)
     generateICS(booking) {
         const startDate = new Date(booking.date + 'T' + booking.time);
-        const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // +1 heure
+        const duration = booking.duration || 60; // Durée en minutes (par défaut 60)
+        const endDate = new Date(startDate.getTime() + duration * 60 * 1000); // Durée variable
 
         const formatDate = (date) => {
             return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
@@ -274,6 +319,19 @@ class BookingSystem {
             'olfactotherapie': 'Olfactothérapie'
         };
         return services[serviceValue] || serviceValue;
+    }
+
+    // Obtenir la durée du service (en minutes)
+    getServiceDuration(serviceValue) {
+        const durations = {
+            'massage-suedois': 60,
+            'massage-californien': 60,
+            'massage-sportif': 60,
+            'pierres-chaudes': 90,
+            'reflexologie': 30,
+            'olfactotherapie': 60
+        };
+        return durations[serviceValue] || 60; // Par défaut 60 minutes
     }
 
     // Obtenir le jour en français
