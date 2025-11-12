@@ -8,6 +8,7 @@ class BookingCalendar {
         this.currentDate = new Date();
         this.selectedDate = null;
         this.selectedTime = null;
+        this.selectedDuration = null; // Durée sélectionnée
         this.viewMode = 'month'; // 'month' or 'week'
         this.init();
     }
@@ -19,6 +20,63 @@ class BookingCalendar {
     render() {
         this.container.innerHTML = `
             <div class="calendar-container">
+                <!-- Sélecteur de durée -->
+                <div class="duration-selector">
+                    <h4 class="duration-selector-title">
+                        <i class="fas fa-clock"></i> Durée souhaitée
+                    </h4>
+                    <div class="duration-cards">
+                        <div class="duration-card ${this.selectedDuration === 30 ? 'active' : ''}" data-duration="30">
+                            <div class="duration-icon">
+                                <i class="fas fa-hourglass-start"></i>
+                            </div>
+                            <div class="duration-info">
+                                <span class="duration-time">30 min</span>
+                                <span class="duration-label">Express</span>
+                            </div>
+                            <div class="duration-badge">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                        </div>
+                        <div class="duration-card ${this.selectedDuration === 60 ? 'active' : ''}" data-duration="60">
+                            <div class="duration-icon">
+                                <i class="fas fa-hourglass-half"></i>
+                            </div>
+                            <div class="duration-info">
+                                <span class="duration-time">1 heure</span>
+                                <span class="duration-label">Standard</span>
+                            </div>
+                            <div class="duration-badge">
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="duration-card ${this.selectedDuration === 90 ? 'active' : ''}" data-duration="90">
+                            <div class="duration-icon">
+                                <i class="fas fa-hourglass-end"></i>
+                            </div>
+                            <div class="duration-info">
+                                <span class="duration-time">1h30</span>
+                                <span class="duration-label">Confort</span>
+                            </div>
+                            <div class="duration-badge">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                        </div>
+                    </div>
+                    ${this.selectedDuration ? `
+                        <p class="duration-help">
+                            <i class="fas fa-info-circle"></i>
+                            Affichage des créneaux de ${this.selectedDuration} minutes
+                        </p>
+                    ` : `
+                        <p class="duration-help">
+                            <i class="fas fa-hand-pointer"></i>
+                            Sélectionnez une durée pour voir les créneaux disponibles
+                        </p>
+                    `}
+                </div>
+
+                ${this.selectedDuration ? `
                 <div class="calendar-controls">
                     <div class="calendar-header">
                         <button class="calendar-nav-btn" id="prevPeriod">
@@ -55,6 +113,7 @@ class BookingCalendar {
                         <span>Complet</span>
                     </div>
                 </div>
+                ` : ''}
             </div>
         `;
 
@@ -111,8 +170,11 @@ class BookingCalendar {
             const isSunday = dayOfWeek === 0;
             const isSelected = this.selectedDate === dateString;
 
-            const availableSlots = !isPast && !isSunday ?
-                window.bookingSystem.getAvailableSlotsForDate(dateString) : [];
+            // Récupérer les créneaux disponibles pour cette date et cette durée
+            let availableSlots = [];
+            if (!isPast && !isSunday && this.selectedDuration) {
+                availableSlots = window.bookingSystem.getAvailableSlotsForDateAndDuration(dateString, this.selectedDuration);
+            }
 
             const slotsCount = availableSlots.length;
 
@@ -200,8 +262,8 @@ class BookingCalendar {
                 const isSunday = dayOfWeek === 0;
 
                 let slotAvailable = false;
-                if (!isPast && !isSunday) {
-                    const availableSlots = window.bookingSystem.getAvailableSlotsForDate(dateString);
+                if (!isPast && !isSunday && this.selectedDuration) {
+                    const availableSlots = window.bookingSystem.getAvailableSlotsForDateAndDuration(dateString, this.selectedDuration);
                     slotAvailable = availableSlots.some(slot => slot.time === hour);
                 }
 
@@ -231,6 +293,17 @@ class BookingCalendar {
     }
 
     attachEventListeners() {
+        // Duration cards selection
+        document.querySelectorAll('.duration-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const duration = parseInt(e.currentTarget.dataset.duration);
+                this.selectedDuration = duration;
+                this.selectedDate = null;
+                this.selectedTime = null;
+                this.render();
+            });
+        });
+
         // Navigation buttons
         document.getElementById('prevPeriod')?.addEventListener('click', () => {
             if (this.viewMode === 'month') {
@@ -313,6 +386,7 @@ class BookingCalendar {
         // Update hidden inputs
         const dateInput = document.getElementById('date');
         const timeInput = document.getElementById('heure');
+        const durationInput = document.getElementById('duration');
 
         if (dateInput) {
             dateInput.value = dateString;
@@ -322,6 +396,11 @@ class BookingCalendar {
         if (timeInput) {
             timeInput.value = time;
             timeInput.dispatchEvent(new Event('change'));
+        }
+
+        if (durationInput && this.selectedDuration) {
+            durationInput.value = this.selectedDuration;
+            durationInput.dispatchEvent(new Event('change'));
         }
 
         // Show form with animation
@@ -386,6 +465,7 @@ class BookingCalendar {
     reset() {
         this.selectedDate = null;
         this.selectedTime = null;
+        this.selectedDuration = null;
         this.currentDate = new Date();
         this.viewMode = 'month';
 

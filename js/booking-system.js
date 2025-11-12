@@ -200,6 +200,101 @@ class BookingSystem {
         return 'BKG-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
     }
 
+    // Récupérer les créneaux disponibles pour une date ET une durée spécifique
+    getAvailableSlotsForDateAndDuration(date, requestedDuration) {
+        const dateObj = new Date(date);
+        const dayOfWeek = dateObj.getDay();
+
+        // Dimanche = 0, on refuse
+        if (dayOfWeek === 0) {
+            return [];
+        }
+
+        // Convertir le jour de la semaine en nom
+        const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const dayName = dayNames[dayOfWeek];
+
+        // Récupérer les créneaux activés pour ce jour
+        const enabledSlots = this.getEnabledSlots().filter(slot => slot.day === dayName);
+
+        // Vérifier quels créneaux sont déjà réservés
+        const bookings = this.getBookings();
+        const bookedSlotsForDate = bookings
+            .filter(b => b.date === date && b.status === 'confirmed')
+            .map(b => ({ time: b.time, duration: b.duration || 60 }));
+
+        // Générer les créneaux disponibles pour la durée demandée
+        const availableSlots = [];
+
+        enabledSlots.forEach(slot => {
+            const [slotHours, slotMinutes] = slot.time.split(':').map(Number);
+            const slotStartInMinutes = slotHours * 60 + slotMinutes;
+
+            // Vérifier si on peut créer un créneau de la durée demandée à partir de ce slot
+            // On vérifie pour chaque sous-créneau de 30 minutes
+            const numSubSlots = slot.duration / 30;
+
+            for (let i = 0; i < numSubSlots; i++) {
+                const subSlotStartInMinutes = slotStartInMinutes + (i * 30);
+                const subSlotHours = Math.floor(subSlotStartInMinutes / 60);
+                const subSlotMinutes = subSlotStartInMinutes % 60;
+                const subSlotTime = `${String(subSlotHours).padStart(2, '0')}:${String(subSlotMinutes).padStart(2, '0')}`;
+
+                // Vérifier si on peut réserver la durée demandée à partir de ce sous-créneau
+                let canBook = true;
+
+                // Vérifier que le créneau ne dépasse pas la fin du slot parent
+                const requestedEndInMinutes = subSlotStartInMinutes + requestedDuration;
+                const slotEndInMinutes = slotStartInMinutes + slot.duration;
+
+                if (requestedEndInMinutes > slotEndInMinutes) {
+                    canBook = false;
+                }
+
+                // Vérifier qu'il n'y a pas de chevauchement avec des réservations existantes
+                if (canBook) {
+                    for (const booking of bookedSlotsForDate) {
+                        const [bookingHours, bookingMinutes] = booking.time.split(':').map(Number);
+                        const bookingStart = bookingHours * 60 + bookingMinutes;
+                        const bookingEnd = bookingStart + (booking.duration || 60);
+
+                        const requestedStart = subSlotStartInMinutes;
+                        const requestedEnd = requestedStart + requestedDuration;
+
+                        // Vérifier s'il y a chevauchement
+                        if ((requestedStart < bookingEnd) && (requestedEnd > bookingStart)) {
+                            canBook = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (canBook) {
+                    availableSlots.push({
+                        time: subSlotTime,
+                        duration: requestedDuration,
+                        parentSlot: slot.time,
+                        parentDuration: slot.duration,
+                        available: true
+                    });
+                }
+            }
+        });
+
+        // Supprimer les doublons (même heure)
+        const uniqueSlots = [];
+        const seenTimes = new Set();
+
+        for (const slot of availableSlots) {
+            if (!seenTimes.has(slot.time)) {
+                seenTimes.add(slot.time);
+                uniqueSlots.push(slot);
+            }
+        }
+
+        return uniqueSlots;
+    }
+
     // Vérifier si un créneau est disponible
     isSlotAvailable(date, time) {
         const availableSlots = this.getAvailableSlotsForDate(date);
