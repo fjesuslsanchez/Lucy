@@ -302,13 +302,17 @@ Pour toute question ou personnalisation, n'hésitez pas à demander de l'aide !
 ## 🔄 Mises à jour futures
 
 Idées d'améliorations :
-- [ ] Système de blog intégré
-- [ ] Paiement en ligne (Stripe, PayPal)
-- [ ] Système de fidélité avec points
-- [ ] Newsletter avec MailChimp
-- [ ] Multilingue (FR/EN)
-- [ ] Notifications par email (EmailJS)
-- [ ] Système de rappels automatiques
+- [x] Système de blog intégré ✅
+- [x] Paiement en ligne (Stripe, PayPal) ✅
+- [x] Système de fidélité avec points ✅
+- [x] Newsletter avec stockage local ✅
+- [x] Multilingue (FR/EN) ✅
+- [x] Notifications par email (EmailJS) ✅
+- [x] Système de rappels automatiques ✅
+- [x] Google Maps intégration ✅
+- [x] Google Analytics intégration ✅
+
+**Toutes les fonctionnalités planifiées sont maintenant implémentées !** 🎉
 
 ## 📄 Licence
 
@@ -342,8 +346,60 @@ Ce projet est fourni tel quel pour un usage personnel et commercial.
 
 ## 🔄 Fonctionnalités prêtes à activer
 
-- [ ] **Paiement en ligne** - Stripe/PayPal (configuration à compléter)
-- [ ] **EmailJS** - Remplacer les IDs dans `js/emailjs-config.js`
-- [ ] **Google Maps** - Ajouter votre embed code
-- [ ] **Analytics** - Ajouter Google Analytics ID
+- [x] **Paiement en ligne** - Stripe/PayPal ✅ (configuration à compléter)
+- [x] **EmailJS** - Remplacer les IDs dans `js/emailjs-config.js` ✅
+- [x] **Google Maps** - Ajouter votre embed code ✅
+- [x] **Analytics** - Ajouter Google Analytics ID ✅
+
+## 💳 Configuration du Système de Paiement
+
+### Stripe
+
+1. Créez un compte sur [Stripe](https://stripe.com/)
+2. Obtenez vos clés API depuis le Dashboard
+3. Dans `js/payment.js`, remplacez :
+   ```javascript
+   STRIPE_PUBLIC_KEY: 'pk_test_VOTRE_CLE_STRIPE'
+   ```
+4. **Important** : Vous devez avoir un backend pour créer les PaymentIntents
+   - Voir les instructions dans `js/payment.js` (lignes 468-480)
+
+### PayPal
+
+1. Créez un compte Business sur [PayPal](https://www.paypal.com/)
+2. Obtenez votre Client ID depuis le Dashboard
+3. Dans `js/payment.js`, remplacez :
+   ```javascript
+   PAYPAL_CLIENT_ID: 'VOTRE_CLIENT_ID_PAYPAL'
+   ```
+4. Dans `index.html` (ligne 721), remplacez :
+   ```html
+   client-id=YOUR_PAYPAL_CLIENT_ID
+   ```
+
+### Utilisation
+
+Pour afficher le modal de paiement dans votre code :
+```javascript
+window.paymentSystem.showPaymentModal(bookingData, amount);
+```
+
+## 🗺️ Configuration de Google Maps
+
+1. Allez sur [Google Maps](https://www.google.com/maps)
+2. Cherchez votre adresse
+3. Cliquez sur "Partager" > "Intégrer une carte"
+4. Copiez le code iframe
+5. Dans `index.html` (ligne 630), remplacez l'URL `src` par votre URL
+
+## 📊 Configuration de Google Analytics
+
+1. Créez un compte sur [Google Analytics](https://analytics.google.com/)
+2. Créez une propriété pour votre site
+3. Obtenez votre Measurement ID (format: G-XXXXXXXXXX)
+4. Dans `index.html` (ligne 18), remplacez :
+   ```javascript
+   'GA_MEASUREMENT_ID'
+   ```
+   Par votre vrai ID aux deux endroits
 
