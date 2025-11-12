@@ -3,6 +3,208 @@
    =================================== */
 
 /* ===================================
+   DURATION SELECTOR - Elegant Cards
+   =================================== */
+
+.duration-selector {
+    margin-bottom: 2.5rem;
+    animation: fadeInDown 0.6s ease;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.duration-selector-title {
+    font-size: 1.3rem;
+    color: var(--primary-dark);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    justify-content: center;
+}
+
+.duration-selector-title i {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.duration-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.duration-card {
+    background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+    border: 2px solid rgba(139, 157, 131, 0.2);
+    border-radius: 16px;
+    padding: 1.75rem 1.25rem;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.duration-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.duration-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    border-color: var(--primary-color);
+    box-shadow: 0 12px 32px rgba(139, 157, 131, 0.25);
+}
+
+.duration-card:hover::before {
+    transform: scaleX(1);
+}
+
+.duration-card.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border-color: var(--primary-dark);
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 16px 40px rgba(139, 157, 131, 0.35);
+}
+
+.duration-card.active::before {
+    transform: scaleX(1);
+    background: linear-gradient(90deg, var(--secondary-color), var(--secondary-dark));
+}
+
+.duration-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(139, 157, 131, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+}
+
+.duration-card.active .duration-icon {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.duration-icon i {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    transition: all 0.4s ease;
+}
+
+.duration-card.active .duration-icon i {
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+.duration-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.duration-time {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    transition: color 0.4s ease;
+}
+
+.duration-card.active .duration-time {
+    color: var(--white);
+}
+
+.duration-label {
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.4s ease;
+}
+
+.duration-card.active .duration-label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.duration-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(139, 157, 131, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0) rotate(-180deg);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.duration-card.active .duration-badge {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.duration-badge i {
+    font-size: 0.9rem;
+    color: var(--primary-color);
+}
+
+.duration-card.active .duration-badge i {
+    color: var(--white);
+}
+
+.duration-help {
+    text-align: center;
+    color: var(--dark-gray);
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    padding: 0.85rem 1.25rem;
+    background: rgba(139, 157, 131, 0.06);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border: 1px solid rgba(139, 157, 131, 0.1);
+}
+
+.duration-help i {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+/* ===================================
    BOOKING LAYOUT - Calendar + Form Side by Side
    =================================== */
 
@@ -563,6 +765,25 @@
 }
 
 @media (max-width: 768px) {
+    /* Duration selector responsive */
+    .duration-cards {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .duration-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .duration-selector-title {
+        font-size: 1.15rem;
+    }
+
+    .duration-help {
+        font-size: 0.85rem;
+        padding: 0.7rem 1rem;
+    }
+
     /* Layout responsive */
     .booking-layout {
         flex-direction: column;

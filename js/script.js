@@ -131,6 +131,7 @@ if (reservationForm) {
         const service = document.getElementById('service').value;
         const date = document.getElementById('date').value;
         const heure = document.getElementById('heure').value;
+        const duration = parseInt(document.getElementById('duration').value);
         const message = document.getElementById('message').value.trim();
 
         // Validation
@@ -154,8 +155,8 @@ if (reservationForm) {
             return;
         }
 
-        if (!date || !heure) {
-            showNotification('Veuillez choisir une date et une heure dans le calendrier', 'error');
+        if (!date || !heure || !duration) {
+            showNotification('Veuillez choisir une durée, une date et une heure dans le calendrier', 'error');
             return;
         }
 
@@ -176,7 +177,6 @@ if (reservationForm) {
         }
 
         // Prepare booking data
-        const serviceDuration = window.bookingSystem.getServiceDuration(service);
         const bookingData = {
             prenom,
             nom,
@@ -185,7 +185,7 @@ if (reservationForm) {
             service,
             date,
             time: heure,
-            duration: serviceDuration,
+            duration: duration,
             message
         };
 
