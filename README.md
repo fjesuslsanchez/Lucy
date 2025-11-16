@@ -129,6 +129,41 @@ Dans `index.html`, section `#reservation`, modifiez les horaires d'ouverture :
 <li><strong>Samedi :</strong> 10h - 17h</li>
 ```
 
+### 7. Personnaliser les réseaux sociaux
+Les liens vers vos réseaux sociaux apparaissent dans deux endroits :
+- **Section Contact** (ligne ~590)
+- **Footer** (ligne ~660)
+
+**Réseaux sociaux intégrés :**
+- Facebook
+- Instagram
+- TikTok
+- LinkedIn
+
+**Pour personnaliser :**
+
+Dans `index.html`, recherchez et remplacez les URLs par défaut par vos vrais liens :
+
+```html
+<!-- Remplacez ces URLs par vos profils réels -->
+<a href="https://www.facebook.com/harmonie.bienetre" ...>         <!-- Votre page Facebook -->
+<a href="https://www.instagram.com/harmonie.bienetre" ...>        <!-- Votre compte Instagram -->
+<a href="https://www.tiktok.com/@harmonie.bienetre" ...>          <!-- Votre compte TikTok -->
+<a href="https://www.linkedin.com/company/harmonie-bienetre" ...> <!-- Votre page LinkedIn -->
+```
+
+**Ajouter d'autres réseaux sociaux :**
+
+Pour ajouter YouTube, Pinterest, ou autres :
+
+```html
+<a href="https://www.youtube.com/@votre-chaine" target="_blank" rel="noopener noreferrer" class="social-link" title="YouTube">
+    <i class="fab fa-youtube"></i>
+</a>
+```
+
+Voir la liste complète des icônes sur [Font Awesome](https://fontawesome.com/icons?d=gallery&s=brands).
+
 ## 📧 Configuration des emails
 
 ### Option 1 : EmailJS (Recommandé - Gratuit)
