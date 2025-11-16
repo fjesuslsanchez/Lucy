@@ -301,13 +301,14 @@
     border: 1px solid rgba(139, 157, 131, 0.1);
     position: relative;
     overflow: hidden;
-    transition: margin-bottom 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: margin-bottom 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                padding-bottom 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* État initial : calendrier non déployé */
 .calendar-container.calendar-collapsed {
     margin-bottom: 0;
-    padding-bottom: 2.5rem; /* Garde le padding du haut et des côtés */
+    padding-bottom: 0; /* Supprime le padding du bas quand le calendrier n'est pas déployé */
 }
 
 .calendar-container.calendar-collapsed .calendar-controls,
@@ -331,6 +332,7 @@
 /* État déployé : calendrier visible */
 .calendar-container.calendar-deployed {
     margin-bottom: 2rem;
+    padding-bottom: 2.5rem; /* Restaure le padding du bas quand le calendrier est déployé */
 }
 
 .calendar-container.calendar-deployed .duration-selector {
