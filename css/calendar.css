@@ -301,6 +301,76 @@
     border: 1px solid rgba(139, 157, 131, 0.1);
     position: relative;
     overflow: hidden;
+    transition: margin-bottom 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* État initial : calendrier non déployé */
+.calendar-container.calendar-collapsed {
+    margin-bottom: 0;
+    padding-bottom: 2.5rem; /* Garde le padding du haut et des côtés */
+}
+
+.calendar-container.calendar-collapsed .calendar-controls,
+.calendar-container.calendar-collapsed .calendar-view,
+.calendar-container.calendar-collapsed .calendar-legend {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.4s ease,
+                margin 0.6s ease,
+                padding 0.6s ease;
+}
+
+.calendar-container.calendar-collapsed .duration-selector {
+    margin-bottom: 0;
+}
+
+/* État déployé : calendrier visible */
+.calendar-container.calendar-deployed {
+    margin-bottom: 2rem;
+}
+
+.calendar-container.calendar-deployed .duration-selector {
+    margin-bottom: 2.5rem;
+}
+
+.calendar-container.calendar-deployed .calendar-controls {
+    max-height: 500px;
+    opacity: 1;
+    animation: slideDown 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.6s ease 0.2s;
+}
+
+.calendar-container.calendar-deployed .calendar-view {
+    max-height: 2000px;
+    opacity: 1;
+    animation: slideDown 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+    transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s,
+                opacity 0.6s ease 0.4s;
+}
+
+.calendar-container.calendar-deployed .calendar-legend {
+    max-height: 200px;
+    opacity: 1;
+    animation: slideDown 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s,
+                opacity 0.6s ease 0.5s;
+}
+
+/* Animation de déploiement */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .calendar-container::before {
