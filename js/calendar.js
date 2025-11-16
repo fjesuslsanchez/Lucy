@@ -18,8 +18,11 @@ class BookingCalendar {
     }
 
     render() {
+        // Update container state class
+        const mainContainer = this.container.querySelector('.calendar-container') || this.container;
+
         this.container.innerHTML = `
-            <div class="calendar-container">
+            <div class="calendar-container ${this.selectedDuration ? 'calendar-deployed' : 'calendar-collapsed'}">
                 <!-- Sélecteur de durée -->
                 <div class="duration-selector">
                     <h4 class="duration-selector-title">
